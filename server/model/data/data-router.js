@@ -6,7 +6,4 @@ router.route('/')
   .get((...args) => controller.find(...args))
   .post((...args) => controller.create(...args));
 
-
-
-
 module.exports = router;
