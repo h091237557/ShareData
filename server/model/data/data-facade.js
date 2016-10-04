@@ -11,5 +11,4 @@ class DataModel {
 	}
 
 }
-
-module.exports = new DataModel(dataSchema);
+export function test (){console.log('hello')} 

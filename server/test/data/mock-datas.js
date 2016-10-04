@@ -1,4 +1,4 @@
-datas = {
+var datas = {
   author: "Mark",
   data: [{
       "id": "1",
@@ -10,4 +10,4 @@ datas = {
   ]
 }
 
-export datas;
+export default datas;
