@@ -10,4 +10,4 @@ var datas = {
   ]
 }
 
-export default datas;
+module.exports = datas;

@@ -6,4 +6,10 @@ var data = {
   }
 }
 
-export default data;
+module.exports = {
+  "author": "mark",
+  "data": {
+    "id": "1",
+    "name": "mark"
+  }
+}

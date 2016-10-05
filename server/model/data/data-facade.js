@@ -1,4 +1,4 @@
-import { dataSchema } from './data-schema';
+var dataSchema = require('./data-schema');
 
 class DataModel {
 	constructor(Schema){
@@ -11,4 +11,5 @@ class DataModel {
 	}
 
 }
-export function test (){console.log('hello')} 
+
+module.exports = new DataModel(dataSchema);
