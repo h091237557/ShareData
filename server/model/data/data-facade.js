@@ -10,6 +10,14 @@ class DataModel {
 		return schema.save();
 	}
 
+	find(query) {
+		var promise = new Promise((resolve,reject) => {
+			this.Schema.find(query,(err,data) => {
+				resolve(data);
+			});
+		})
+		return promise;
+	}
 }
 
 module.exports = new DataModel(dataSchema);
