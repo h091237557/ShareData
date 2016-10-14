@@ -7,7 +7,16 @@ class DataModel {
 
 	create(input) {
 		const schema = new this.Schema(input);
-		return schema.save();
+		let promise = new Promise((resolve,reject) => {
+			schema.save((err) => {
+				if(err){
+					reject(err);
+				}else{
+					resolve({"status":"Success"});
+				}
+			});
+		});
+		return promise;
 	}
 
 	find(query) {

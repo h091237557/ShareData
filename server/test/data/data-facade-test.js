@@ -8,20 +8,19 @@ var mongoose = require('mongoose');
 require('sinon-mongoose');
 
 var dataFacade = require('../../model/data/data-facade');
-var Schema = require('../../model/data/data-schema')
-  //var mockData = require('./mock-data.js');
-  //var mockDatas = require('./mock-datas.js');
+var Schema = require('../../model/data/data-schema');
+var mockDatas = require('./mock-datas');
 
-
-describe('Get All Datas', function() {
-	var find ;
+describe('Get All Data', function() {
+  var find;
   beforeEach(() => {
     find = sinon.stub(Schema, 'find');
   });
 
-  afterEach(function() {
+  afterEach(() => {
     Schema.find.restore();
   });
+
   it('should return all datas', function(done) {
     var expectResult = {
       "test": "mark"
@@ -29,11 +28,34 @@ describe('Get All Datas', function() {
     var query = "";
     Schema.find.yields(null, expectResult);
     var result = dataFacade.find(query);
-		result.then((datas) => {
+    result.then((datas) => {
+      sinon.assert.calledOnce(find);
+      expect(datas).to.equal(expectResult);
+      done();
+    });
+  });
+});
 
-			sinon.assert.calledOnce(find);	
-			expect(datas).to.equal(expectResult);
+describe('Save Data', () => {
+	var save;
+	beforeEach(() => {
+		let schema = new Schema(mockDatas);
+		save = sinon.stub(schema,'save')
+	});
+
+	afterEach(() => {
+		save.restore();
+	});
+
+	it('should save error due to vaild error',(done) => {
+		save.yields({"status":"success"},null);	
+		var result = dataFacade.create(mockDatas);
+		result.then((err) => {
+			var aa = err;
+		}).catch((err) => {
+			expect(err).to.exist;
 			done();
 		});
-  });
+	});
+
 });

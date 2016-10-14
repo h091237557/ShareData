@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "test": "mocha test/**/*.js --ui qunit --compilers js:babel-register --require babel-polyfill",
+		"test" : "istanbul cover _mocha test/**/*.js",
     "debug-test": "mocha --debug-brk test/data/data-facade-test.js --ui qunit --compilers js:babel-register --require babel-polyfill",
     "complie": "babel model -d lib",
     "devtool-debug": "devtool ./node_modules/mocha/bin/_mocha -qc -- ./test/data/*.js "
