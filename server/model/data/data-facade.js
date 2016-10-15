@@ -1,4 +1,4 @@
-var dataSchema = require('./data-schema');
+//var dataSchema = require('./data-schema');
 
 class DataModel {
 	constructor(Schema){
@@ -29,4 +29,4 @@ class DataModel {
 	}
 }
 
-module.exports = new DataModel(dataSchema);
+module.exports = DataModel;
