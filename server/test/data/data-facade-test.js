@@ -11,7 +11,7 @@ var DataFacade = require('../../model/data/data-facade');
 var Schema = require('../../model/data/data-schema');
 var mockDatas = require('./mock-datas');
 
-describe('Get All Data', function() {
+describe('UNIT:data-facade.js -- Get All Data', function() {
   var find;
   beforeEach(() => {
     find = sinon.stub(Schema, 'find');
@@ -37,15 +37,23 @@ describe('Get All Data', function() {
   });
 });
 
-describe('Save Data', () => {
+describe('UNIT:data-facade.js -- Save Data', () => {
 	var save;
 	beforeEach(() => {
 		//let schema = new Schema(mockDatas);
 		//save = sinon.stub(schema,'save')
 	});
 
+	before(() => {
+		sinon.stub(Schema.prototype,'save');
+	});
+
 	afterEach(() => {
-		save.restore();
+		Schema.prototype.save.reset();
+	});
+
+	after(() => {
+		Schema.prototype.save.restore();
 	});
 
 	it('should save success',(done) => {
@@ -56,23 +64,22 @@ describe('Save Data', () => {
 			"describe" : "test",
 			"author" : "Mark"
 		}
-		let MockSchema = sinon.mock(Schema);
-		MockSchema.expects('save').yields(null,{"status":"success"});
-		let mock = MockSchema.object;
-		let Facade = new DataFacade(mock);
+		Schema.prototype.save.yields(null,{"status" : "success"});		
+		let Facade = new DataFacade(Schema);
 		let result = Facade.create(datas);
-		result.then((err) => {
-			let etest = 0;
+		result.then((msg) => {
+			expect(msg).to.exist;
 			done();
 		}).catch((err) => {
-			let aa = 0;
 			done();
 		});
 	});
 
 	it('should save error due to vaild error',(done) => {
-		var result = dataFacade.create(mockDatas);
-		result.then((err) => {
+		let Facade = new DataFacade(Schema);
+		Schema.prototype.save.yields({"status":"faild"},null);
+		var result = Facade.create(mockDatas);
+		result.then((msg) => {
 			var aa = err;
 		}).catch((err) => {
 			expect(err).to.exist;
