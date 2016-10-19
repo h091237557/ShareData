@@ -3,12 +3,8 @@ const Schema = mongoose.Schema;
 
 
 const dataSchema = new Schema({
-  id: {
-    type: String,
-    required: true
-  },
   data: {
-    type: String,
+    type: [],
     require: true
   },
   describe: {

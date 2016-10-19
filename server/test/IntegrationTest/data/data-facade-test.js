@@ -17,36 +17,33 @@ describe('Integration: data-facade.js -- Get Data', () => {
     });
   });
 
-	after(() => {
-		config.close((msg) => {
-			console.log(msg);
-		});
-	});
+  after(() => {
+    config.close((msg) => {
+      console.log(msg);
+    });
+  });
 
 
   it('should return datas and clear datas', (done) => {
-    let obj = JSON.stringify({
-      "id": "1",
-      "hello": "world"
-    });
+		let obj = [{"id":"1"},{"id":"2"},{"id":"3"}];
     let datas = {
-      "id": "1",
       "data": obj,
       "describe": "test",
       "author": "Mark"
     }
     let createResult = Facade.create(datas);
-    createResult.then((msg) => {
-      let id = "1";
-      return Facade.find({"id":"1"});
+    createResult.then((data) => {
+      return Facade.find({
+        "_id": data._id.toString() 
+      });
     }).then((data) => {
-			expect(data.length).to.equal(1);
-			var removeId = data[0]._id.toString();
-			return Facade.remove(removeId); 
+      expect(data.length).to.equal(1);
+      var removeId = data[0]._id.toString();
+      return Facade.remove(removeId);
     }).then((msg) => {
-			done();
-		}).catch((err) => {
-			console.log(err);
+      done();
+    }).catch((err) => {
+      console.log(err);
     });
 
   });

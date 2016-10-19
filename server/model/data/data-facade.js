@@ -8,13 +8,13 @@ class DataModel {
   create(input) {
     const schema = new this.Schema(input);
     let promise = new Promise((resolve, reject) => {
-      schema.save((err) => {
+      schema.save((err, data) => {
         if (err) {
           reject(err);
         } else {
-          resolve({
-            "status": "Success"
-          });
+          resolve(
+            data
+          );
         }
       });
     });

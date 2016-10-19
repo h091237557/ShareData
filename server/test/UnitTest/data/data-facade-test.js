@@ -4,12 +4,10 @@ var sinon = require('sinon');
 var expect = chai.expect;
 
 var mongoose = require('mongoose');
-require('sinon-mongoose');
 
 var DataFacade = require('../../../model/data/data-facade');
 var Schema = require('../../../model/data/data-schema');
 var Facade = new DataFacade(Schema);
-var mockDatas = require('./mock-datas');
 
 describe('UNIT:data-facade.js -- Get All Data', function() {
   var find;
@@ -37,6 +35,20 @@ describe('UNIT:data-facade.js -- Get All Data', function() {
 });
 
 describe('UNIT:data-facade.js -- Save Data', () => {
+  var obj = [{
+    "id": "1"
+  }, {
+    "id":
+    "2"
+  }, {
+    "id":
+    "3"
+  }];
+  var testDatas = {
+    "data": obj,
+    "describe": "test",
+    "author": "Mark"
+  }
   beforeEach(() => {});
 
   before(() => {
@@ -52,17 +64,11 @@ describe('UNIT:data-facade.js -- Save Data', () => {
   });
 
   it('should save success', (done) => {
-    let obj = JSON.stringify(mockDatas);
-    let datas = {
-      "id": "1",
-      "data": obj,
-      "describe": "test",
-      "author": "Mark"
-    }
+
     Schema.prototype.save.yields(null, {
       "status": "success"
     });
-    let result = Facade.create(mockDatas);
+    let result = Facade.create(testDatas);
     result.then((msg) => {
       expect(msg).to.exist;
       expect(Schema.prototype.save.callCount).to.equal(1);
@@ -76,7 +82,7 @@ describe('UNIT:data-facade.js -- Save Data', () => {
     Schema.prototype.save.yields({
       "status": "faild"
     }, null);
-    let result = Facade.create(mockDatas);
+    let result = Facade.create(testDatas);
     result.then((msg) => {}).catch((err) => {
       expect(err).to.exist;
       done();
