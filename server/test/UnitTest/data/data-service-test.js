@@ -5,9 +5,9 @@ var expect = chai.expect;
 
 var mongoose = require('mongoose');
 
-var DataFacade = require('../../../model/data/data-facade');
+var DataService = require('../../../model/data/data-service');
 var Schema = require('../../../model/data/data-schema');
-var Facade = new DataFacade(Schema);
+var Service = new DataService(Schema);
 
 describe('UNIT:data-facade.js -- Get All Data', function() {
   var find;
@@ -25,7 +25,7 @@ describe('UNIT:data-facade.js -- Get All Data', function() {
     };
     var query = "";
     Schema.find.yields(null, expectResult);
-    var result = Facade.find(query);
+    var result = Service.find(query);
     result.then((datas) => {
       sinon.assert.calledOnce(find);
       expect(datas).to.equal(expectResult);
@@ -68,7 +68,7 @@ describe('UNIT:data-facade.js -- Save Data', () => {
     Schema.prototype.save.yields(null, {
       "status": "success"
     });
-    let result = Facade.create(testDatas);
+    let result = Service.create(testDatas);
     result.then((msg) => {
       expect(msg).to.exist;
       expect(Schema.prototype.save.callCount).to.equal(1);
@@ -82,7 +82,7 @@ describe('UNIT:data-facade.js -- Save Data', () => {
     Schema.prototype.save.yields({
       "status": "faild"
     }, null);
-    let result = Facade.create(testDatas);
+    let result = Service.create(testDatas);
     result.then((msg) => {}).catch((err) => {
       expect(err).to.exist;
       done();
@@ -112,7 +112,7 @@ describe('UNIT:data-facade.js -- Delete data', function() {
       status: true
     };
     Schema.findByIdAndRemove.yields(null, expectedResult);
-    var result = Facade.remove("1");
+    var result = Service.remove("1");
     result.then((msg) => {
       expect(msg).to.exist;
       done();
@@ -127,7 +127,7 @@ describe('UNIT:data-facade.js -- Delete data', function() {
       status: false
     };
     Schema.findByIdAndRemove.yields(expectedResult, null);
-    var result = Facade.remove('1');
+    var result = Service.remove('1');
     result.then((msg) => {
 
     }).catch((err) => {

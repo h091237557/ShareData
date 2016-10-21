@@ -3,10 +3,6 @@ const Schema = mongoose.Schema;
 
 
 const dataSchema = new Schema({
-  data: {
-    type: [],
-    require: true
-  },
   describe: {
     type: String
   },

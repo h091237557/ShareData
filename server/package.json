@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
-		"test" : "istanbul cover _mocha test/**/**/*.js",
-		"contest" : "istanbul cover _mocha test/IntegrationTest/**/*.js",
+    "test": "istanbul cover _mocha test/**/**/*.js",
+    "contest": "istanbul cover _mocha test/IntegrationTest/**/*.js",
     "debug-test": "mocha --debug-brk test/data/data-facade-test.js --ui qunit --compilers js:babel-register --require babel-polyfill",
     "complie": "babel model -d lib",
     "devtool-debug": "devtool ./node_modules/mocha/bin/_mocha -qc -- ./test/IntegrationTest/data/*.js "
@@ -17,6 +17,7 @@
   },
   "author": " <>",
   "dependencies": {
+    "async": "^2.1.2",
     "babel-core": "^6.17.0",
     "babel-polyfill": "^6.16.0",
     "babel-register": "^6.16.3",
