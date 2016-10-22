@@ -7,9 +7,10 @@ var mongoose = require('mongoose');
 
 var DataService = require('../../../model/data/data-service');
 var Schema = require('../../../model/data/data-schema');
-var Service = new DataService(Schema);
+var DataDetailSchema = require('../../../model/data/dataDetail-schema');
+var Service = new DataService(Schema, DataDetailSchema);
 
-describe('UNIT:data-facade.js -- Get All Data', function() {
+describe('UNIT:data-service.js -- Get All Data', function() {
   var find;
   beforeEach(() => {
     find = sinon.stub(Schema, 'find');
@@ -34,21 +35,13 @@ describe('UNIT:data-facade.js -- Get All Data', function() {
   });
 });
 
-describe('UNIT:data-facade.js -- Save Data', () => {
-  var obj = [{
-    "id": "1"
-  }, {
-    "id":
-    "2"
-  }, {
-    "id":
-    "3"
-  }];
+describe('UNIT:data-service.js -- Save Data', () => {
+
   var testDatas = {
-    "data": obj,
     "describe": "test",
     "author": "Mark"
   }
+
   beforeEach(() => {});
 
   before(() => {
@@ -68,7 +61,10 @@ describe('UNIT:data-facade.js -- Save Data', () => {
     Schema.prototype.save.yields(null, {
       "status": "success"
     });
-    let result = Service.create(testDatas);
+    let result = Service.saveData(testDatas, () => {
+      console.log('Save Data Success')
+    });
+
     result.then((msg) => {
       expect(msg).to.exist;
       expect(Schema.prototype.save.callCount).to.equal(1);
@@ -82,7 +78,9 @@ describe('UNIT:data-facade.js -- Save Data', () => {
     Schema.prototype.save.yields({
       "status": "faild"
     }, null);
-    let result = Service.create(testDatas);
+    let result = Service.saveData(testDatas, (msg) => {
+      console.log(msg);
+    });
     result.then((msg) => {}).catch((err) => {
       expect(err).to.exist;
       done();
@@ -91,22 +89,17 @@ describe('UNIT:data-facade.js -- Save Data', () => {
 
 });
 
-describe('UNIT:data-facade.js -- Delete data', function() {
-  beforeEach(() => {
+describe('UNIT:data-service.js -- Delete data', function() {
 
-  });
-
-  afterEach(() => {
-
-  });
-
+  var sinonObj;
   before(() => {
-    sinon.stub(Schema, 'findByIdAndRemove');
+    sinonObj = sinon.stub(Schema, 'findByIdAndRemove');
   });
 
   after(() => {
-
+    sinonObj.restore();
   });
+
   it('should delete success', (done) => {
     var expectedResult = {
       status: true
@@ -133,6 +126,96 @@ describe('UNIT:data-facade.js -- Delete data', function() {
     }).catch((err) => {
       expect(err).to.exist;
       done();
+    });
+
+  });
+});
+
+describe('UNIT : data-service.js -- test splitData ', () => {
+  it('should split 10 element in array', () => {
+    let dataId = "1";
+    let size = 10000,
+      dataArr = [],
+      testObj = {
+        "id": "1",
+        "price": "1000"
+      };
+    for (var i = 0; i < size; i++) {
+      dataArr.push(testObj);
+    }
+
+    var input = {
+      data: dataArr,
+    }
+
+    var result = Service.splitData(dataId, input);
+    expect(result.length).to.equal(10);
+  });
+});
+
+describe('UNIT : data-service.js -- test bulk data to DataDetal', () => {
+  var bulksinon;
+  before(() => {
+    bulksinon = sinon.stub(DataDetailSchema.collection, 'insert');
+  });
+
+  it('should bulk save success', (done) => {
+    datas = [{
+      "dataId": "1",
+      "data": [1, 2, 3],
+      "isFinal": false
+    }, {
+      "dataId": "2",
+      "data": [1, 2, 3],
+      "isFinal": true
+    }];
+
+    DataDetailSchema.collection.insert.yields(null, datas);
+    var result = Service.bulkSaveDataDetail(datas, (msg) => {
+      console.log(msg)
+    });
+
+    result.then((datas) => {
+      expect(datas).to.exist;
+      done();
+    }).catch((err) => {
+      console.log(err);
+      done();
+    });
+  });
+});
+
+describe('UNIT : data-service.js -- test create ', () => {
+
+  it('should create success', (done) => {
+    let size = 10000,
+      data = {},
+      dataArr = [],
+      testObj = {
+        "id": "1",
+        "price": "1000"
+      };
+    for (var i = 0; i < size; i++) {
+      dataArr.push(testObj);
+    }
+
+    data = {
+      author: "mark",
+      data: dataArr,
+      descript: "test"
+    }
+
+    var stubSaveData = sinon.stub(Service, "saveData");
+    stubSaveData.returns(Promise.resolve({_id:"1001"}));
+
+    var stubBulkSaveDetail = sinon.stub(Service, "bulkSaveDataDetail");
+    stubBulkSaveDetail.returns(Promise.resolve({status:"success"}));
+
+    var result = Service.create(data);
+    result.then((datas) => {
+      consle.log(datas);
+    }).catch((err) => {
+      console.log(err);
     });
 
   });

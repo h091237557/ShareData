@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const dataDetailSchema = new Schema({
-	dataid:{
+	dataId:{
 		type:String,
 		index:true
 	},
 	data:{
 		type:[]
 	},
-	isfinal :{
+	isFinal :{
 		type:Boolean
 	}
 })
