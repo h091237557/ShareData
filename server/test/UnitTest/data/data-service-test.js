@@ -4,6 +4,7 @@ var sinon = require('sinon');
 var expect = chai.expect;
 
 var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 
 var DataService = require('../../../model/data/data-service');
 var Schema = require('../../../model/data/data-schema');
@@ -49,18 +50,18 @@ describe('UNIT:data-service.js -- Save Data', () => {
   });
 
   afterEach(() => {
-    Schema.prototype.save.reset();
+		Schema.prototype.save.reset();
   });
 
   after(() => {
-    Schema.prototype.save.restore();
+		Schema.prototype.save.restore();
   });
 
   it('should save success', (done) => {
 
-    Schema.prototype.save.yields(null, {
-      "status": "success"
-    });
+		Schema.prototype.save.yields(null, {
+			"status": "success"
+		});
     let result = Service.saveData(testDatas, () => {
       console.log('Save Data Success')
     });
