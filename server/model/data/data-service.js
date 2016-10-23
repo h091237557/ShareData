@@ -1,4 +1,3 @@
-
 class DataModel {
 
   constructor(Schema, DataDetailSchema) {
@@ -13,12 +12,11 @@ class DataModel {
       asyncSize = Math.ceil(dataLength / this.maxSize),
       asyncFucs = [];
 
-    var result;
     var saveDataResult = this.saveData(input, () => {
       console.log("Save Data Success")
     });
 
-    var result = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       saveDataResult.then((data) => {
         let dataId = data._id.toString();
         var asyncData = this.splitData(dataId, input, asyncSize);
@@ -28,14 +26,13 @@ class DataModel {
         }
 
         Promise.all(asyncFucs).then(msgs => {
-            resolve(msgs);
+          resolve(data);
         });
 
       }).catch((err) => {
         console.log(err);
       });
     });
-    return result;
   }
 
   splitData(dataId, input) {
@@ -45,32 +42,30 @@ class DataModel {
       size = Math.ceil(dataLength / maxSize);
 
     for (var i = 0; i < size; i++) {
-      if (size == 1) {
-        result.push(input);
-      } else {
-        let obj = {
-          data: input.data.slice(i * 1000, (i + 1) * 1000),
-          dataId: dataId,
-          isFinal: false || i == (size - 1)
-        };
-        result.push(obj);
-      }
+      let obj = {
+        data: input.data.slice(i * 1000, (i + 1) * 1000),
+        dataId: dataId,
+        isFinal: false || i == (size - 1)
+      };
+      result.push(obj);
     }
     return result;
   }
 
   saveData(data, callback) {
-    const schema = new this.Schema(data);
+    var inputData = {
+      describe: data.describe,
+      author: data.author
+    }
+    const schema = new this.Schema(inputData);
     let promise = new Promise((resolve, reject) => {
       schema.save((err, data) => {
         if (err) {
           reject(err);
-          callback("Save Data Fail");
         } else {
           resolve(
             data
           );
-          callback("Save Data Success");
         }
       });
     });
@@ -91,12 +86,15 @@ class DataModel {
   }
 
   find(query) {
-    var promise = new Promise((resolve, reject) => {
-      this.Schema.find(query, (err, data) => {
-        resolve(data);
-      });
-    })
-    return promise;
+    return new Promise((resolve, reject) => {
+        this.Schema.find(query, (err, data) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(data);
+          }
+        });
+    });
   }
 
   remove(id) {
