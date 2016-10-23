@@ -1,4 +1,3 @@
-var async = require("async");
 
 class DataModel {
 
@@ -14,38 +13,35 @@ class DataModel {
       asyncSize = Math.ceil(dataLength / this.maxSize),
       asyncFucs = [];
 
+    var result;
     var saveDataResult = this.saveData(input, () => {
       console.log("Save Data Success")
     });
 
-    saveDataResult.then((data) => {
-      let dataId = data._id.toString();
-      var asyncData = this.splitData(dataId, input, asyncSize);
+    var result = new Promise((resolve, reject) => {
+      saveDataResult.then((data) => {
+        let dataId = data._id.toString();
+        var asyncData = this.splitData(dataId, input, asyncSize);
 
-      for (var i = 0; asyncSize; i++) {
-        asyncFuc.push(bulkSaveDataDetail(asyncData[i], () => {
-          console.log(i + ' : Bulk Save DataDetail Success');
-        }));
-      }
+        for (var i = 0; i < asyncSize; i++) {
+          asyncFucs.push(this.bulkSaveDataDetail(asyncData[i]));
+        }
 
-      var result = new Promise((reolve, reject) => {
-        async.parallel(asyncFuc, (err, results) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(results);
-          }
+        Promise.all(asyncFucs).then(msgs => {
+            resolve(msgs);
         });
+
+      }).catch((err) => {
+        console.log(err);
       });
-    }).catch((err) => {
-			console.log(err);
-		});
+    });
+    return result;
   }
 
   splitData(dataId, input) {
     let result = [],
       dataLength = input.data.length,
-			maxSize = this.maxSize || 10000,
+      maxSize = this.maxSize || 10000,
       size = Math.ceil(dataLength / maxSize);
 
     for (var i = 0; i < size; i++) {
@@ -86,10 +82,8 @@ class DataModel {
       this.DataDetailSchema.collection.insert(datas, (err, datas) => {
         if (err) {
           reject(err);
-          callback("bulk fail");
         } else {
           resolve(datas);
-          callback("bulk success");
         }
       });
     });
@@ -119,18 +113,18 @@ class DataModel {
   }
 
   //update(id, newData) {
-    //var promise = new Promise((resolve, reject) => {
-      //this.Schema.findOneAndUpdate(query, newData, {
-        //upsert: true
-      //}, (err, data) => {
-        //if (err) {
-          //reject(err);
-        //} else {
-          //resolve(data);
-        //}
-      //})
-    //})
-    //return promise;
+  //var promise = new Promise((resolve, reject) => {
+  //this.Schema.findOneAndUpdate(query, newData, {
+  //upsert: true
+  //}, (err, data) => {
+  //if (err) {
+  //reject(err);
+  //} else {
+  //resolve(data);
+  //}
+  //})
+  //})
+  //return promise;
   //}
 }
 module.exports = DataModel;

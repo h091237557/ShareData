@@ -213,11 +213,11 @@ describe('UNIT : data-service.js -- test create ', () => {
 
     var result = Service.create(data);
     result.then((datas) => {
-      consle.log(datas);
+			expect(datas.length).to.equal(10);
+			done();
     }).catch((err) => {
-      console.log(err);
+			done();
     });
-
   });
 
 });
