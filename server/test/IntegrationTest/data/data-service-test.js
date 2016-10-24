@@ -20,9 +20,9 @@ describe('Integration: data-service.js -- Get Data', () => {
   });
 
   after(() => {
-    //config.close((msg) => {
-    //console.log(msg);
-    //});
+		config.close((msg) => {
+		console.log(msg);
+		});
   });
 
 
@@ -55,7 +55,56 @@ describe('Integration: data-service.js -- Get Data', () => {
 		}).catch((err) => {
 			console.log(err);
 		});
+  });
+});
 
+describe('Integration: data-service.js -- Get Data (1 million test)', () => {
+  before(() => {
+    config.connect((err) => {
+      if (err) {
+        console.log(err.message);
+      }
+    });
   });
 
+  after(() => {
+		config.close((msg) => {
+		console.log(msg);
+		});
+  });
+	it('should return datas and clear datas',(done) => {
+		let size = 1000000,
+			datas = [];
+		
+		for (var i=0;i<size;i++){
+			datas.push({
+				"id" :  i,
+				"aruthor" : "Mark"
+			})
+		};
+
+		let input = {
+			"data" : datas,
+			"describe" : "million test",
+			"author" : "Mark Big"
+		}
+
+		let createResult = Service.create(input);
+		
+		createResult.then((data) => {
+			return Service.find({
+				_id: data._id.toString()
+			});
+		}).then((datas) => {
+			console.log(datas);
+			expect(datas.length).to.equal(1);
+			var removeId = datas[0]._id.toString();
+			return Service.remove(removeId);
+		}).then((msg) => {
+			done();
+		}).catch((err) => {
+			console.log(err);
+		});
+	
+	}).timeout(10000);
 });
