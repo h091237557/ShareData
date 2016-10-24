@@ -150,7 +150,7 @@ describe('UNIT : data-service.js -- test splitData ', () => {
     }
 
     var result = Service.splitData(dataId, input);
-    expect(result.length).to.equal(10);
+    expect(result.length).to.equal(10000);
   });
 });
 
@@ -214,7 +214,7 @@ describe('UNIT : data-service.js -- test create ', () => {
 
     var result = Service.create(data);
     result.then((datas) => {
-			expect(datas.length).to.equal(10);
+			expect(datas.length).to.equal(10000);
 			done();
     }).catch((err) => {
 			done();

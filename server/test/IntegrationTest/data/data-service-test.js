@@ -73,7 +73,7 @@ describe('Integration: data-service.js -- Get Data (1 million test)', () => {
 		});
   });
 	it('should return datas and clear datas',(done) => {
-		let size = 1000000,
+		let size = 1000,
 			datas = [];
 		
 		for (var i=0;i<size;i++){
@@ -96,7 +96,6 @@ describe('Integration: data-service.js -- Get Data (1 million test)', () => {
 				_id: data._id.toString()
 			});
 		}).then((datas) => {
-			console.log(datas);
 			expect(datas.length).to.equal(1);
 			var removeId = datas[0]._id.toString();
 			return Service.remove(removeId);

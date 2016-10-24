@@ -7,7 +7,7 @@ const dataDetailSchema = new Schema({
 		index:true
 	},
 	data:{
-		type:[]
+		type:{}
 	},
 	isFinal :{
 		type:Boolean

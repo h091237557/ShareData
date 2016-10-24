@@ -19,11 +19,10 @@ class DataModel {
     return new Promise((resolve, reject) => {
       saveDataResult.then((data) => {
         let dataId = data._id.toString();
-        var asyncData = this.splitData(dataId, input, asyncSize);
+        var asyncDatas = this.splitData(dataId, input, asyncSize),
+          asyncDataLength = asyncDatas.length;
 
-        for (var i = 0; i < asyncSize; i++) {
-          asyncFucs.push(this.bulkSaveDataDetail(asyncData[i]));
-        }
+        asyncFucs.push(this.bulkSaveDataDetail(asyncDatas));
 
         Promise.all(asyncFucs).then(msgs => {
           resolve(data);
@@ -41,9 +40,10 @@ class DataModel {
       maxSize = this.maxSize || 10000,
       size = Math.ceil(dataLength / maxSize);
 
-    for (var i = 0; i < size; i++) {
+    //data: input.data.slice(i * 1000, (i + 1) * 1000),
+    for (var i = 0; i < dataLength; i++) {
       let obj = {
-        data: input.data.slice(i * 1000, (i + 1) * 1000),
+        data: input.data[i],
         dataId: dataId,
         isFinal: false || i == (size - 1)
       };
@@ -87,13 +87,13 @@ class DataModel {
 
   find(query) {
     return new Promise((resolve, reject) => {
-        this.Schema.find(query, (err, data) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(data);
-          }
-        });
+      this.Schema.find(query, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
     });
   }
 
