@@ -50,18 +50,18 @@ describe('UNIT:data-service.js -- Save Data', () => {
   });
 
   afterEach(() => {
-		Schema.prototype.save.reset();
+    Schema.prototype.save.reset();
   });
 
   after(() => {
-		Schema.prototype.save.restore();
+    Schema.prototype.save.restore();
   });
 
   it('should save success', (done) => {
 
-		Schema.prototype.save.yields(null, {
-			"status": "success"
-		});
+    Schema.prototype.save.yields(null, {
+      "status": "success"
+    });
     let result = Service.saveData(testDatas, () => {
       console.log('Save Data Success')
     });
@@ -90,7 +90,7 @@ describe('UNIT:data-service.js -- Save Data', () => {
 
 });
 
-describe('UNIT:data-service.js -- Delete data', function() {
+describe('UNIT:data-service.js -- test deletedata by Id', function() {
 
   var sinonObj;
   before(() => {
@@ -106,7 +106,7 @@ describe('UNIT:data-service.js -- Delete data', function() {
       status: true
     };
     Schema.findByIdAndRemove.yields(null, expectedResult);
-    var result = Service.remove("1");
+    var result = Service.removeDataByDataId("1");
     result.then((msg) => {
       expect(msg).to.exist;
       done();
@@ -121,7 +121,7 @@ describe('UNIT:data-service.js -- Delete data', function() {
       status: false
     };
     Schema.findByIdAndRemove.yields(expectedResult, null);
-    var result = Service.remove('1');
+    var result = Service.removeDataByDataId('1');
     result.then((msg) => {
 
     }).catch((err) => {
@@ -207,18 +207,132 @@ describe('UNIT : data-service.js -- test create ', () => {
     }
 
     var stubSaveData = sinon.stub(Service, "saveData");
-    stubSaveData.returns(Promise.resolve({_id:"1001"}));
+    stubSaveData.returns(Promise.resolve({
+      _id: "1001"
+    }));
 
     var stubBulkSaveDetail = sinon.stub(Service, "bulkSaveDataDetail");
-    stubBulkSaveDetail.returns(Promise.resolve({status:"success"}));
+    stubBulkSaveDetail.returns(Promise.resolve({
+      status: "success"
+    }));
 
     var result = Service.create(data);
     result.then((datas) => {
-			expect(datas.length).to.equal(10000);
-			done();
+      expect(datas.length).to.equal(10000);
+      done();
     }).catch((err) => {
-			done();
+      done();
     });
   });
 
+});
+describe('UNIT : data-service.js -- test delete datadetail ', () => {
+  var sinonObj;
+  before(() => {
+    sinonObj = sinon.stub(DataDetailSchema.collection, 'remove');
+  });
+
+  after(() => {
+    sinonObj.restore();
+  });
+
+  it('should delete success', (done) => {
+    var expectedResult = {
+      status: true
+    };
+    DataDetailSchema.collection.remove.yields(null, expectedResult);
+    var result = Service.removeDataDetailsByDataId("1");
+    result.then((msg) => {
+      expect(msg).to.exist;
+      done();
+    }).catch((err) => {
+      console.log(err);
+      done();
+    });
+  });
+});
+
+describe('UNIT : data-service.js -- test remove data method  ', () => {
+  var sinonRemoveData,
+    sinonRemoveDataDetails;
+  before(() => {});
+
+  after(() => {
+    sinonRemoveData.restore();
+    sinonRemoveDetails.restore();
+  });
+
+  it('should delete success', (done) => {
+    var expectedResult = {
+      status: true
+    };
+
+    sinonRemoveData = sinon.stub(Service, "removeDataByDataId");
+    sinonRemoveDetails = sinon.stub(Service, "removeDataDetailsByDataId");
+
+    sinonRemoveData.returns(Promise.resolve(expectedResult));
+    sinonRemoveDetails.returns(Promise.resolve(expectedResult));
+    var result = Service.remove("1");
+    result.then((msg) => {
+      expect(msg).to.exist;
+      done();
+    }).catch((err) => {
+      console.log(err);
+      done();
+    });
+  });
+});
+
+describe('UNIT : data-service.js -- test update datadetail method  ', () => {
+  var sinonUpdateDataDetail;
+  before(() => {
+    sinonUpdateDataDetail = sinon.stub(DataDetailSchema, "findOneAndUpdate");
+  });
+
+  after(() => {
+    sinonUpdateDataDetail.restore();
+  });
+
+  it('should update success', (done) => {
+    var expectedResult = {
+      status: true
+    };
+
+    DataDetailSchema.findOneAndUpdate.yields(null, expectedResult);
+
+    var result = Service.updateDataDetail({
+      "data.id": 1
+    }, {
+      "id": 1,
+      "author": "Lin"
+    });
+    result.then((msg) => {
+      expect(msg).to.exist;
+      done();
+    }).catch((err) => {
+      console.log(err);
+      done();
+    });
+  });
+  it('should update fail', (done) => {
+    var expectedResult = {
+      status: false 
+    };
+
+    DataDetailSchema.findOneAndUpdate.yields(expectedResult, null);
+
+    var result = Service.updateDataDetail({
+      "data.id": 1
+    }, {
+      "id": 1,
+      "author": "Lin"
+    });
+    result.then((msg) => {
+      expect(msg).to.exist;
+      done();
+    }).catch((err) => {
+      console.log(err);
+      done();
+    });
+  });
 });

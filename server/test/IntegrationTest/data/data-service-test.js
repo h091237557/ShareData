@@ -46,7 +46,6 @@ describe('Integration: data-service.js -- Get Data', () => {
 				_id: data._id.toString()
 			});
 		}).then((datas) => {
-			console.log(datas);
 			expect(datas.length).to.equal(1);
 			var removeId = datas[0]._id.toString();
 			return Service.remove(removeId);
@@ -58,7 +57,7 @@ describe('Integration: data-service.js -- Get Data', () => {
   });
 });
 
-describe('Integration: data-service.js -- Get Data (1 million test)', () => {
+describe('Integration: data-service.js -- Get Data (One hundred thousand test)', () => {
   before(() => {
     config.connect((err) => {
       if (err) {
@@ -73,7 +72,7 @@ describe('Integration: data-service.js -- Get Data (1 million test)', () => {
 		});
   });
 	it('should return datas and clear datas',(done) => {
-		let size = 1000,
+		let size = 10000,
 			datas = [];
 		
 		for (var i=0;i<size;i++){
@@ -105,5 +104,5 @@ describe('Integration: data-service.js -- Get Data (1 million test)', () => {
 			console.log(err);
 		});
 	
-	}).timeout(10000);
+	}).timeout(100000);
 });

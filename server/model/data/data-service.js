@@ -1,7 +1,6 @@
 class DataModel {
 
   constructor(Schema, DataDetailSchema) {
-    this.maxSize = 1000;
     this.Schema = Schema;
     this.DataDetailSchema = DataDetailSchema;
   }
@@ -9,7 +8,6 @@ class DataModel {
   create(input) {
     let data = input.data,
       dataLength = data.length,
-      asyncSize = Math.ceil(dataLength / this.maxSize),
       asyncFucs = [];
 
     var saveDataResult = this.saveData(input, () => {
@@ -18,13 +16,18 @@ class DataModel {
 
     return new Promise((resolve, reject) => {
       saveDataResult.then((data) => {
+        var start = new Date().getTime();
+        var end = 0;
+
         let dataId = data._id.toString();
-        var asyncDatas = this.splitData(dataId, input, asyncSize),
+        var asyncDatas = this.splitData(dataId, input),
           asyncDataLength = asyncDatas.length;
 
         asyncFucs.push(this.bulkSaveDataDetail(asyncDatas));
 
         Promise.all(asyncFucs).then(msgs => {
+          end = new Date().getTime();
+          console.log((end - start) / 1000 + "sec");
           resolve(data);
         });
 
@@ -99,6 +102,23 @@ class DataModel {
 
   remove(id) {
     var promise = new Promise((resolve, reject) => {
+      var start = new Date().getTime();
+      var end = 0;
+      var removeDataPromise = this.removeDataByDataId(id);
+      var removeDataDetailPromise = this.removeDataDetailsByDataId(id);
+      Promise.all([removeDataPromise, removeDataDetailPromise]).then(data => {
+        end = new Date().getTime();
+        console.log((end - start) / 1000 + "sec");
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+    return promise;
+  }
+
+  removeDataByDataId(id) {
+    var promise = new Promise((resolve, reject) => {
       this.Schema.findByIdAndRemove(id, (err, result) => {
         if (err) {
           reject(err);
@@ -110,19 +130,33 @@ class DataModel {
     return promise;
   }
 
-  //update(id, newData) {
-  //var promise = new Promise((resolve, reject) => {
-  //this.Schema.findOneAndUpdate(query, newData, {
-  //upsert: true
-  //}, (err, data) => {
-  //if (err) {
-  //reject(err);
-  //} else {
-  //resolve(data);
-  //}
-  //})
-  //})
-  //return promise;
-  //}
+  removeDataDetailsByDataId(id) {
+    return new Promise((resolve, reject) => {
+      this.DataDetailSchema.collection.remove({
+        dataId: id
+      }, (err, msg) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(msg);
+        }
+      });
+    });
+  }
+
+  updateDataDetail(query, newData) {
+    var promise = new Promise((resolve, reject) => {
+      this.DataDetailSchema.findOneAndUpdate(query, newData, {
+        upsert: true
+      }, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      })
+    })
+    return promise;
+  }
 }
 module.exports = DataModel;
