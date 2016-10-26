@@ -146,8 +146,8 @@ class DataModel {
 
   updateDataDetail(query, newData) {
     var promise = new Promise((resolve, reject) => {
-      this.DataDetailSchema.findOneAndUpdate(query, newData, {
-        upsert: true
+      this.DataDetailSchema.findOneAndUpdate(query,{$set:{"data" : newData}} , {
+        "new" : true
       }, (err, data) => {
         if (err) {
           reject(err);
