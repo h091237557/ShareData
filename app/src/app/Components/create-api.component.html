@@ -1,0 +1,12 @@
+<header>Create restful api</header>
+<section>
+  <div class="json-area">
+		<div class="lines"></div>
+		<textarea [(ngModel)]="rapidPageValue" class="datas" cols="30" rows="10" placeholder="請輸入你的JSON">{{jsonString}}</textarea>
+	</div>
+
+  <div class="">{{errorMsgValue}}</div>
+  <div><a (click)="onSelect()" class="waves-effect waves-light btn">建立</a></div>
+  <div><a (click)="onSelectPrettyJson()" class="waves-effect waves-light btn">Pretty</a></div>
+  <footer></footer>
+</section>
