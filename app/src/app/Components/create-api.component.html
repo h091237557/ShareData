@@ -1,12 +1,15 @@
-<header>Create restful api</header>
-<section>
-  <div class="json-area">
+<header class="json-header">Create restful api</header>
+<section id="json-main">
+  <div class="json-inputarea">
 		<div class="lines"></div>
-		<textarea [(ngModel)]="rapidPageValue" class="datas" cols="30" rows="10" placeholder="請輸入你的JSON">{{jsonString}}</textarea>
+		<textarea (input)="jsonStringValue=$event.target.value" class="datas materialize-textarea" cols="30" rows="10" placeholder="請輸入你的JSON"></textarea>
+	</div>
+	<div class="json-descript">
+		<label class="json-descriptLabel active" for="json-descripInput">Descript</label>
+		<input value="2200年大盤資料" id="json-descripInput" type="text" class="validate">
 	</div>
 
   <div class="">{{errorMsgValue}}</div>
-  <div><a (click)="onSelect()" class="waves-effect waves-light btn">建立</a></div>
-  <div><a (click)="onSelectPrettyJson()" class="waves-effect waves-light btn">Pretty</a></div>
+  <div><a (click)="onSelect()" class="json-createButton waves-effect waves-light btn">建立</a></div>
   <footer></footer>
 </section>

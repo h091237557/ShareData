@@ -13,28 +13,30 @@ export class CreateApiComponent {
   private _rapidPage: Object;
   private _errorMsg: string;
 
-	jsonString = '';
+  private _jsonString = '';
 
-	constructor () {
+  constructor() {}
+
+  onSelect(): void {
+			let jsonstring = this.jsonStringValue;
 	}
-
-  onSelect(): void {}
 
   onSelectPrettyJson(): void {
-		this.jsonString = JSON.stringify(this.jsonString,null,2);
-		  }
-  //get rapidPageValue() {
-      //return JSON.stringify(this._rapidPage, null, 2);
-  //}
-	set rapidPageValue(v:string) {
-		try {
-			this.jsonString = v;
-			this._errorMsg = "";
-		} catch (e) {
-			this._errorMsg = "error this string not json";
-		};
+      //this.jsonString = JSON.stringify(this.jsonString, null, 2);
+    }
+
+	get jsonStringValue(){
+		return this._jsonString;	
 	}
 
+  set jsonStringValue(v: string) {
+    try {
+      this._jsonString = JSON.parse(v);
+      this._errorMsg = "";
+    } catch (e) {
+      this._errorMsg = "error this string not json";
+    };
+  }
   get errorMsgValue() {
     return this._errorMsg;
   }

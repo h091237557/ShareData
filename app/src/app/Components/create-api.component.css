@@ -1,11 +1,22 @@
-.json-area {
+
+#json-main {
+	display:flex;
+	justify-content:center;
+}
+
+.json-header {
+	font-size:26px;
+	padding:20px;
+}
+
+.json-inputarea {
+	margin:20px;	
 	border:2px solid #272727;
 	padding:3px;
-	display:inline-block;
 	border-radius:6px;
 }
 
-.datas {
+.json-inputarea > .datas {
 	font-size:16px;
 	font-family:Arial, Helvetica, sans-serif;
 	height:300px;
@@ -15,11 +26,20 @@
 	padding:10px;
 }
 
-.datas:focus {
+.json-inputarea > .datas:focus {
 	outline-width:0;	
 }
 
-.lines {
-	
 
+.json-descript {
+	font-size:16px;
+	margin:20px;
+}
+
+.json-descriptLabel {
+	font-size:16px;
+}
+
+.json-createButton {
+	margin:20px;
 }
