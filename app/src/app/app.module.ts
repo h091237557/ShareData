@@ -3,16 +3,21 @@ import {  BrowserModule } from '@angular/platform-browser';
 import {  AppComponent } from './app.component';
 import { CreateApiComponent } from './Components/create-api.component';
 import {FormsModule} from '@angular/forms';
+import { HttpModule }    from '@angular/http';
+
+import {JsonDataService} from './Services/jsonData.service';
 
 @NgModule({
   imports: [
     BrowserModule,
-		FormsModule
+		FormsModule,
+		HttpModule
   ],
   declarations: [
     AppComponent,
 		CreateApiComponent
   ],
+	providers: [JsonDataService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

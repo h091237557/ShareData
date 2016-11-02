@@ -17,6 +17,7 @@
 }
 
 .json-inputarea > .datas {
+	margin:0px;
 	font-size:16px;
 	font-family:Arial, Helvetica, sans-serif;
 	height:300px;

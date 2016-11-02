@@ -2,6 +2,10 @@ import {
   Component
 } from '@angular/core';
 
+import {
+  JsonDataService
+} from '../Services/jsonData.service';
+
 
 @Component({
   selector: 'create-api',
@@ -18,16 +22,16 @@ export class CreateApiComponent {
   constructor() {}
 
   onSelect(): void {
-			let jsonstring = this.jsonStringValue;
-	}
+    let jsonstring = this.jsonStringValue;
+  }
 
   onSelectPrettyJson(): void {
-      //this.jsonString = JSON.stringify(this.jsonString, null, 2);
-    }
+    //this.jsonString = JSON.stringify(this.jsonString, null, 2);
+  }
 
-	get jsonStringValue(){
-		return this._jsonString;	
-	}
+  get jsonStringValue() {
+    return this._jsonString;
+  }
 
   set jsonStringValue(v: string) {
     try {

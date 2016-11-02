@@ -1,6 +1,5 @@
 debugger;
 var mongoose = require('mongoose');
-var ObjectId = require('mongoose').Types.ObjectId;
 var config = require('../test-config');
 var chai = require('chai');
 var expect = chai.expect;
@@ -72,7 +71,7 @@ describe('Integration: data-service.js -- Get Data (One hundred thousand test)',
     });
   });
   it('should return datas and clear datas', (done) => {
-    let size = 10000,
+    let size = 10,
       datas = [];
 
     for (var i = 0; i < size; i++) {
