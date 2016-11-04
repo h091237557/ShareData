@@ -1,11 +1,30 @@
 const DataService = require('./data-service');
-var DataSchema = require('./data-schema'); 
+const DataApiService = require('./dataApi-service');
+var DataSchema = require('./data-schema');
 var DataDetailSchema = require('./dataDetail-schema');
 
+var dataService = new DataService(DataSchema, DataDetailSchema);
+var dataApiService = new DataApiService(DataDetailSchema);
+
 class DataController {
-  constructor(dataService) {
+  constructor(dataService, dataApiService) {
     this.dataService = dataService;
+    this.dataApiService = dataApiService;
   }
+
+  apiGetData(req, res, next) {
+    try {
+      var result = this.dataApiService.get(dataKey);
+      result.then((datas) => {
+        return res.status(200).json(datas);
+      }).catch(e) {
+        return res.status(500).end();
+      }
+    } catch (e) {
+      next(e);
+    }
+
+  };
 
   find(req, res, next) {}
 
@@ -27,4 +46,4 @@ class DataController {
   }
 }
 
-module.exports = new DataController(new DataService(DataSchema,DataDetailSchema));
+module.exports = new DataController(dataService, dataApiService);

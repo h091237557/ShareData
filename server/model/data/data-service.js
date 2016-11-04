@@ -5,17 +5,15 @@ class DataModel {
     this.DataDetailSchema = DataDetailSchema;
   }
 
-	/*
- * input.data :
- * => Is user want create restful api data
- *
- * input.describe :
- * => Is user want create data's describe
- */
+  /*
+   * input.data :
+   * => Is user want create restful api data
+   *
+   * input.describe :
+   * => Is user want create data's describe
+   */
   create(input) {
-    let data = input.data,
-      dataLength = data.length,
-      asyncFucs = [];
+    let asyncFucs = [];
 
     var saveDataResult = this.saveData(input, () => {
       console.log("Save Data Success")
@@ -35,8 +33,7 @@ class DataModel {
         Promise.all(asyncFucs).then(datadetails => {
           end = new Date().getTime();
           console.log((end - start) / 1000 + "sec");
-          //resolve(datadetails[0].ops);
-					resolve(data);
+          resolve(data);
         });
 
       }).catch((err) => {
@@ -154,8 +151,12 @@ class DataModel {
 
   updateDataDetail(query, newData) {
     var promise = new Promise((resolve, reject) => {
-      this.DataDetailSchema.findOneAndUpdate(query,{$set:{"data" : newData}} , {
-        "new" : true
+      this.DataDetailSchema.findOneAndUpdate(query, {
+        $set: {
+          "data": newData
+        }
+      }, {
+        "new": true
       }, (err, data) => {
         if (err) {
           reject(err);
