@@ -6,17 +6,22 @@ import { Observable } from 'rxjs';
 export class JsonDataService {
 	constructor(private http: Http) {}
 	private headers = new Headers({'Content-Type': 'application/json'});
-	private apiUrl = '';
+	private apiUrl = 'http://127.0.01:3000/datas';
 
 	createJsonData(json:any, describe:string) : Promise<any>{
 	var sendData = {
 		data:json,
-		describe:describe
+		describe:describe,
+		author:"mark"
 	};
 		return this.http
-			.post(this.apiUrl,JSON.stringify(sendData),{headers: this.headers})
+			.post(this.apiUrl,sendData,{headers: this.headers})
 			.toPromise()
-			.then(res => res.json().data)
+			.then(res => {
+				if(res.status == 200){
+					alert('Create Success');
+				}
+			})
 			.catch(this.handleError);
 	}
 

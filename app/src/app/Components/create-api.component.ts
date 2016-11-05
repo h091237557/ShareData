@@ -10,19 +10,21 @@ import {
 @Component({
   selector: 'create-api',
   templateUrl: './create-api.component.html',
-  styleUrls: ['./create-api.component.css']
+  styleUrls: ['./create-api.component.css'],
+	providers: [JsonDataService]
 })
-export class CreateApiComponent {
+export class CreateApiComponent implements OnInit {
 
   private _rapidPage: Object;
   private _errorMsg: string;
 
   private _jsonString = '';
 
-  constructor() {}
+  constructor(private jsonDataService: JsonDataService) {}
 
   onSelect(): void {
-    let jsonstring = this.jsonStringValue;
+    let jsonString = this.jsonStringValue;
+		var result = this.jsonDataService.createJsonData(jsonString,"test");
   }
 
   onSelectPrettyJson(): void {
