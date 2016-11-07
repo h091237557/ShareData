@@ -16,10 +16,12 @@ class DataController {
     try {
       var result = this.dataApiService.get(dataKey);
       result.then((datas) => {
-        return res.status(200).json(datas);
-      }).catch(e) {
-        return res.status(500).end();
-      }
+        if (datas) {
+          return res.status(200).json(datas);
+        } else {
+          return res.status(500).end();
+        }
+      })
     } catch (e) {
       next(e);
     }
