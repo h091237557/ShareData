@@ -7,8 +7,6 @@ var expect = chai.expect;
 var app = require('../../../index');
 var request = require('supertest')(app);
 
-
-
 describe('Integration: data-controller.js -- Create Data ', () => {
   before(() => {
     config.connect((err) => {
@@ -34,14 +32,30 @@ describe('Integration: data-controller.js -- Create Data ', () => {
       describe: "Test"
     };
 
-    request
-      .post('/datas')
-      .send(input)
-      .expect(200)
-      .end((err, res) => {
-        done();
-      })
+    var createPromise = new Promise((resolve, reject) => {
+      request
+        .post('/datas')
+        .send(input)
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(res);
+          }
+        })
+    });
+
+    createPromise.then((res) => {
+      var dataKey = res.body._id;
+      request
+        .del('/datas/' + dataKey)
+        .expect(200)
+        .end((err, res) => {
+          done();
+        })
+    }).catch((err) => {
+      next(err);
+    });
   });
-
 });
-

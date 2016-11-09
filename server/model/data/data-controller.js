@@ -27,6 +27,27 @@ class DataController {
     };
 
   }
+
+	remove(req,res,next){
+		let removeId = req.params.datasKey;
+		try {
+			var result = this.dataService.remove(removeId);
+			result.then((data) => {
+				if(data){
+					return res.status(200).json({"status":"true"});
+				}else{
+					return res.status(500).end();
+				}
+			}).catch(err => next(err));
+		} catch(e){
+
+		};	
+	}
+
+	getAll(req,res,next) {
+
+
+	};
 }
 
 module.exports = new DataController(dataService);

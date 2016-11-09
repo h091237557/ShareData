@@ -46,21 +46,35 @@ describe('Integration: dataApi-controller.js -- Get Data use restful api ', () =
         })
     });
 
-    createPromise.then((createRes) => {
-      var keyId = createRes.body._id;
-      var author = "mark";
-      var url = '/api/' + author + '/' + keyId + '-datas';
-      request
-        .get(url)
-        .expect(200)
-        .end((err, res) => {
-          var actualDatas = res.body;
-          expect(actualDatas.length).to.equal(1);
-          done();
-        })
-    }).catch((err) => {
-      console.log(err);
-    });
+    var getPromise = function(url) {
+      return new Promise((resolve, reject) => {
+        request
+          .get(url)
+          .expect(200)
+          .end((err, res) => {
+            var actualDatas = res.body;
+            resolve(actualDatas);
+            expect(actualDatas.length).to.equal(1);
+          })
+      });
+    };
+
+		var keyId = "";
+		createPromise.then((createRes) => {
+			keyId = createRes.body._id;
+			var author = "mark";
+			var url = '/api/' + author + '/' + keyId + '-datas';
+			return getPromise(url);
+		}).then((resolve, reject) => {
+			request
+				.del("/datas/" + keyId)
+				.expect(200)
+				.end((err, res) => {
+					done();
+				})
+		}).catch((err) => {
+			console.log(err);
+		});
 
   });
 

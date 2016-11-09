@@ -159,3 +159,50 @@ describe('Integration: data-service.js -- Update DataDetail', () => {
     });
   });
 });
+
+describe('Integration: data-service.js -- Get All Data', () => {
+  before(() => {
+    config.connect((err) => {
+      if (err) {
+        console.log(err.message);
+      }
+    });
+  });
+
+  after(() => {
+    config.close((msg) => {
+      console.log(msg);
+    });
+  });
+
+
+  it('should return all datas and clear datas', (done) => {
+    let obj = [{
+      "id": "1"
+    }, {
+      "id": "2"
+    }, {
+      "id": "3"
+    }];
+    let datas = {
+      "data": obj,
+      "describe": "test",
+      "author": "Mark"
+    }
+    let createResult = Service.create(datas);
+
+    createResult.then((data) => {
+      return Service.getAllData();
+    }).then((datas) => {
+			console.log(datas.length);
+      expect(datas.length).to.equal(1);
+      var removeId = datas[0]._id.toString();
+      return Service.remove(removeId);
+    }).then((msg) => {
+      done();
+    }).catch((err) => {
+      console.log(err);
+    });
+  });
+});
+

@@ -93,7 +93,8 @@ class DataModel {
     return promise;
   }
 
-  find(query) {
+  find(query, limitCount) {
+    let count = limitCount || 10000;
     return new Promise((resolve, reject) => {
       this.Schema.find(query, (err, data) => {
         if (err) {
@@ -101,19 +102,17 @@ class DataModel {
         } else {
           resolve(data);
         }
-      });
+      }).limit(count);
     });
   }
 
   remove(id) {
     var promise = new Promise((resolve, reject) => {
-      var start = new Date().getTime();
-      var end = 0;
+			console.time("Remove Data timer");
       var removeDataPromise = this.removeDataByDataId(id);
       var removeDataDetailPromise = this.removeDataDetailsByDataId(id);
       Promise.all([removeDataPromise, removeDataDetailPromise]).then(data => {
-        end = new Date().getTime();
-        console.log((end - start) / 1000 + "sec");
+				console.timeEnd("Remove Data timer");
         resolve(data);
       }).catch((err) => {
         reject(err);
@@ -150,7 +149,7 @@ class DataModel {
   }
 
   updateDataDetail(query, newData) {
-    var promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.DataDetailSchema.findOneAndUpdate(query, {
         $set: {
           "data": newData
@@ -165,7 +164,18 @@ class DataModel {
         }
       })
     })
-    return promise;
   }
+
+  getAllData(limitCount) {
+    let count = limitCount || 10;
+    return new Promise((resolve, reject) => {
+      let findPromise = this.find({}, count);
+      findPromise.then((datas) => {
+        resolve(datas);
+      }).catch((err) => {
+        reject(err);
+			});
+    });
+  };
 }
 module.exports = DataModel;

@@ -6,4 +6,7 @@ router.route('/')
   .get((...args) => controller.find(...args))
   .post((...args) => controller.create(...args));
 
+router.route('/:datasKey')
+	.delete((...args) => controller.remove(...args));
+
 module.exports = router;

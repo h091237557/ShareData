@@ -45,22 +45,22 @@ describe('Integration: dataApi-service.js -- Get Data', () => {
     }
     let createResult = DataService.create(datas);
     var dataId = "";
-    createResult.then((data) => {
-      return DataService.find({
-        _id: data._id.toString()
-      });
-    }).then((datas) => {
-      expect(datas.length).to.equal(1);
-      dataId = datas[0]._id.toString();
-      return DataApiService.get(dataId);
-    }).then((datas) => {
+		createResult.then((data) => {
+			return DataService.find({
+				_id: data._id.toString()
+			});
+		}).then((datas) => {
+			expect(datas.length).to.equal(1);
+			dataId = datas[0]._id.toString();
+			return DataApiService.get(dataId);
+		}).then((datas) => {
 			expect(datas.length).to.equal(3);
-      return DataService.remove(dataId);
-    }).then((err) => {
-      done();
-    }).catch((err) => {
-      console.log(err);
-    });
+			return DataService.remove(dataId);
+		}).then((err) => {
+			done();
+		}).catch((err) => {
+			console.log(err);
+		});
   });
 });
 
