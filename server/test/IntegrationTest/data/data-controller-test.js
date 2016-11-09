@@ -59,3 +59,86 @@ describe('Integration: data-controller.js -- Create Data ', () => {
     });
   });
 });
+
+describe('Integration: data-controller.js -- Get All Data ', () => {
+  before(() => {
+    config.connect((err) => {
+      if (err) {
+        console.log(err.message);
+      }
+    });
+  });
+
+  after(() => {
+    config.close((msg) => {
+      console.log(msg);
+    });
+  });
+
+
+  it('should create 2 data and get allData expect 2', (done) => {
+    let input1 = {
+      data: [{
+        "id": "1",
+        "author": "mark"
+      }],
+      describe: "Test"
+    };
+    let input2 = {
+      data: [{
+        "id": "1",
+        "author": "mark"
+      }],
+      describe: "Test"
+    };
+
+    var createPromise = (input) => {
+      return new Promise((resolve, reject) => {
+        request
+          .post('/datas')
+          .send(input)
+          .expect(200)
+          .end((err, res) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(res);
+            }
+          })
+      });
+    };
+
+    var delPromise = (id) => {
+      return new Promise((resolve, reject) => {
+        request
+          .del('/datas/' + id)
+          .expect(200)
+          .end((err, res) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(res);
+            }
+          })
+      });
+    };
+
+    Promise.all([createPromise(input1), createPromise(input2)]).then((datas) => {
+			var data1_id = datas[0].body._id;
+			var data2_id = datas[1].body._id;
+      request
+        .get('/datas')
+        .expect(200)
+        .end((err, res) => {
+          Promise.all([delPromise(data1_id), delPromise(data2_id)])
+            .then((datas) => {
+              done();
+            });
+        });
+    }).catch(err => {
+      next(err);
+    });
+
+
+  });
+});

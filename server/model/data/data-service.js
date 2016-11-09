@@ -166,6 +166,7 @@ class DataModel {
     })
   }
 
+	//取得所有Datas Schema中所有的資料
   getAllData(limitCount) {
     let count = limitCount || 10;
     return new Promise((resolve, reject) => {
