@@ -1,3 +1,5 @@
+var sizeOf = require('../../src/lib/sizeCal');
+
 class DataModel {
 
   constructor(Schema, DataDetailSchema) {
@@ -60,11 +62,13 @@ class DataModel {
     return result;
   }
 
-  saveData(data, callback) {
-    var inputData = {
-      describe: data.describe,
-      author: data.author
-    }
+  saveData(input, callback) {
+		let inputData = {
+			describe:input.describe,
+			author:input.author,
+			count:input.data.length,
+			size : sizeOf(input.data)
+		}
     const schema = new this.Schema(inputData);
     let promise = new Promise((resolve, reject) => {
       schema.save((err, data) => {

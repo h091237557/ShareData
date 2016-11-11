@@ -13,6 +13,12 @@ const dataSchema = new Schema({
 	author: {
 		type: String,
 		require:true
+	},
+	count:{
+		type:Number
+	},
+	size:{
+		type:Number
 	}
 });
 
