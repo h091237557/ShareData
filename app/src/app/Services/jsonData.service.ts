@@ -1,34 +1,64 @@
-import { Injectable }     from '@angular/core';
-import { Http, Response,Headers } from '@angular/http';
-import { Observable } from 'rxjs';
+import {
+  Injectable
+} from '@angular/core';
+import {
+  Http,
+  Response,
+  Headers
+} from '@angular/http';
+import {
+  Observable
+} from 'rxjs';
 
 @Injectable()
 export class JsonDataService {
-	constructor(private http: Http) {}
-	private headers = new Headers({'Content-Type': 'application/json'});
-	private apiUrl = 'http://127.0.01:3000/datas';
+  constructor(private http: Http) {}
+  private headers = new Headers({
+    'Content-Type': 'application/json'
+  });
 
-	createJsonData(json:any, describe:string) : Promise<any>{
-	var sendData = {
-		data:json,
-		describe:describe,
-		author:"mark"
-	};
-		return this.http
-			.post(this.apiUrl,sendData,{headers: this.headers})
-			.toPromise()
-			.then(res => {
-				if(res.status == 200){
-					alert('Create Success');
-				}
-			})
-			.catch(this.handleError);
-	}
+  private apiUrl = 'http://127.0.01:3000/datas';
 
-  private handleError(error: any): Promise<any> {
+  createJsonData(json: any, describe: string): Promise < any > {
+
+		if(describe.replace(/(^\s*)|(\s*$)/g,"").length == 0){
+			alert('描述不能為空白');
+		}
+
+		//json的判斷
+		//if(json)
+
+    var sendData = {
+      data: json,
+      describe: describe,
+      author: "mark"
+    };
+    return this.http
+      .post(this.apiUrl, sendData, {
+        headers: this.headers
+      })
+      .toPromise()
+      .then(res => {
+        if (res.status == 200) {
+          alert('Create Success');
+        }
+      })
+      .catch(this.handleError);
+  }
+
+  getAllDatas(): Promise < any > {
+
+    return this.http
+      .get(this.apiUrl)
+      .toPromise()
+      .then(res => {
+			 return	Promise.resolve(res.json());
+      }).catch(this.handleError);
+
+  }
+
+  private handleError(error: any): Promise < any > {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
   }
 }
-
-

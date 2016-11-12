@@ -1,0 +1,59 @@
+.view-body {
+	height100px;
+}
+.view {
+	font-size:16px;
+	margin:20px;
+}
+
+.view-author {
+	background-color:#4F4F4F;	
+	display:inline-block;
+	margin:10px;
+	width:20%;
+	border-radius:10px;
+}
+
+.view-describe {
+	line-height:1.2em;
+	height:6em;
+	overflow:hidden;
+	display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical; 
+	
+}
+
+.view-details {
+	background-color:
+}
+
+.view-count {
+	margin:10px;
+	width:auto;
+	padding:0 12px;	
+	height:36px;
+	display:inline-block;
+	border-radius:15%;
+	background-color:black;
+	font-color:white;
+}
+
+.view-count i {
+	line-height:36px;
+}
+
+.view-size {
+	margin:10px;
+	width:auto;
+	padding:0 12px;	
+	height:36px;
+	display:inline-block;
+	border-radius:15%;
+	background-color:black;
+	font-color:white;
+}
+
+.view-size i {
+	line-height:36px;
+}

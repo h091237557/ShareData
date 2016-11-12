@@ -13,23 +13,32 @@ import {
   styleUrls: ['./create-api.component.css'],
 	providers: [JsonDataService]
 })
-export class CreateApiComponent implements OnInit {
+export class CreateApiComponent {
 
   private _rapidPage: Object;
   private _errorMsg: string;
 
   private _jsonString = '';
+	private _describe = '';
 
   constructor(private jsonDataService: JsonDataService) {}
 
   onSelect(): void {
     let jsonString = this.jsonStringValue;
-		var result = this.jsonDataService.createJsonData(jsonString,"test");
+		let describe = this.describeValue;
+		var result = this.jsonDataService.createJsonData(jsonString,describe);
   }
 
   onSelectPrettyJson(): void {
     //this.jsonString = JSON.stringify(this.jsonString, null, 2);
   }
+	get describeValue(){
+		return this._describe;
+	}
+
+	set describeValue(s:string){
+		this._describe = s;	
+	}
 
   get jsonStringValue() {
     return this._jsonString;
