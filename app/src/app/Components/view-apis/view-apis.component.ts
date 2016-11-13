@@ -1,13 +1,16 @@
 import {
-  Component,OnInit
+  Component,
+  OnInit
 } from '@angular/core';
 
 import {
   JsonDataService
 } from '../../Services/jsonData.service';
 
-import { ViewDatasModel } from '../../ViewModels/viewDatas-viewModel';
-import  a  from '../test';
+import {
+  ViewDatasModel
+} from '../../ViewModels/viewDatas-viewModel';
+import formatBytes from '../../../lib/byteToSize';
 
 @Component({
   selector: 'view-apis',
@@ -18,20 +21,24 @@ import  a  from '../test';
 
 
 export class ViewApisComponent implements OnInit {
-	viewDatasModels:ViewDatasModel[];
+  viewDatasModels: ViewDatasModel[];
 
-  constructor(private jsonDataService: JsonDataService) {
-	}
+  constructor(private jsonDataService: JsonDataService) {}
 
-	ngOnInit():void {
-		this.getAllDatas();
-	}
-	getAllDatas():void{
-		this.jsonDataService
-				.getAllDatas()
-				.then(datas => {
-					this.viewDatasModels = datas as ViewDatasModel[];
-				});
-	}
+  ngOnInit(): void {
+    this.getAllDatas();
+  }
+  getAllDatas(): void {
+    this.jsonDataService
+      .getAllDatas()
+      .then(datas => {
+        var coverResult = datas as ViewDatasModel[];
+        var resultLen = datas.length;
+        for (var i = 0; i < resultLen; i++) {
+          coverResult[i].sizeString = formatBytes(coverResult[i].size);
+        }
+        this.viewDatasModels = coverResult;
+      });
+  }
 
 }
