@@ -4,10 +4,10 @@ var config = require('../test-config');
 var chai = require('chai');
 var expect = chai.expect;
 
-var DataServiceClass = require('../../../model/data/data-service');
-var DataApiServiceClass = require('../../../model/data/dataApi-service');
-var DataSchema = require('../../../model/data/data-schema');
-var DataDetailSchema = require('../../../model/data/dataDetail-schema');
+var DataServiceClass = require('../../../src/model/data/data-service');
+var DataApiServiceClass = require('../../../src/model/data/dataApi-service');
+var DataSchema = require('../../../src/model/data/data-schema');
+var DataDetailSchema = require('../../../src/model/data/dataDetail-schema');
 var DataApiService = new DataApiServiceClass(DataDetailSchema);
 var DataService = new DataServiceClass(DataSchema, DataDetailSchema);
 

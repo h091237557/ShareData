@@ -1,4 +1,5 @@
-var sizeOf = require('../../src/lib/sizeCal');
+var sizeOf = require('../../lib/lib-sizeCal');
+var validator = require('../../lib/lib-validator');
 
 class DataModel {
 
@@ -17,14 +18,11 @@ class DataModel {
   create(input) {
     let asyncFucs = [];
 
-    var saveDataResult = this.saveData(input, () => {
-      console.log("Save Data Success")
-    });
+    var saveDataResult = this.saveData(input)
 
     return new Promise((resolve, reject) => {
       saveDataResult.then((data) => {
-        var start = new Date().getTime();
-        var end = 0;
+        console.time("!!!Create Data timer");
 
         let dataId = data._id.toString();
         var asyncDatas = this.splitData(dataId, input),
@@ -33,13 +31,12 @@ class DataModel {
         asyncFucs.push(this.bulkSaveDataDetail(asyncDatas));
 
         Promise.all(asyncFucs).then(datadetails => {
-          end = new Date().getTime();
-          console.log((end - start) / 1000 + "sec");
+          console.timeEnd("!!!Create Data timer");
           resolve(data);
         });
 
       }).catch((err) => {
-        console.log(err);
+        reject(err);
       });
     });
   }
@@ -62,13 +59,33 @@ class DataModel {
     return result;
   }
 
-  saveData(input, callback) {
-		let inputData = {
-			describe:input.describe,
-			author:input.author,
-			count:input.data.length,
-			size : sizeOf(input.data)
-		}
+	/**
+ * input.describe
+ * input.author
+ * input.data
+ */
+  saveData(input) {
+
+    validator.config = {
+      describe: 'isNonEmpty',
+      author: 'isNonEmpty',
+      data: 'isArray'
+    }
+
+    var validResult = validator.validate(input);
+    if (!validResult) {
+      return Promise.reject({
+        "status": false,
+        "msg": "valid error"
+      });
+    }
+
+    let inputData = {
+      describe: input.describe,
+      author: input.author,
+      count: input.data.length,
+      size: sizeOf(input.data)
+    }
     const schema = new this.Schema(inputData);
     let promise = new Promise((resolve, reject) => {
       schema.save((err, data) => {
@@ -111,12 +128,20 @@ class DataModel {
   }
 
   remove(id) {
+
+    if (!id) {
+      return Promise({
+        status: false,
+        msg: "valid error"
+      })
+    }
+
     var promise = new Promise((resolve, reject) => {
-			console.time("Remove Data timer");
+      console.time("!!!Remove Data timer");
       var removeDataPromise = this.removeDataByDataId(id);
       var removeDataDetailPromise = this.removeDataDetailsByDataId(id);
       Promise.all([removeDataPromise, removeDataDetailPromise]).then(data => {
-				console.timeEnd("Remove Data timer");
+        console.timeEnd("!!!Remove Data timer");
         resolve(data);
       }).catch((err) => {
         reject(err);
@@ -139,6 +164,14 @@ class DataModel {
   }
 
   removeDataDetailsByDataId(id) {
+
+	if(!id){
+		return Promise.reject({
+			status:false,
+			msg:"valid error"
+		})
+	}
+
     return new Promise((resolve, reject) => {
       this.DataDetailSchema.collection.remove({
         dataId: id
@@ -170,7 +203,7 @@ class DataModel {
     })
   }
 
-	//取得所有Datas Schema中所有的資料
+  //取得所有Datas Schema中所有的資料
   getAllData(limitCount) {
     let count = limitCount || 10;
     return new Promise((resolve, reject) => {
@@ -179,7 +212,7 @@ class DataModel {
         resolve(datas);
       }).catch((err) => {
         reject(err);
-			});
+      });
     });
   };
 }

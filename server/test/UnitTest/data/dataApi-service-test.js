@@ -6,8 +6,8 @@ var expect = chai.expect;
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-var DataApiService = require('../../../model/data/dataApi-service');
-var DataDetailSchema = require('../../../model/data/dataDetail-schema');
+var DataApiService = require('../../../src/model/data/dataApi-service');
+var DataDetailSchema = require('../../../src/model/data/dataDetail-schema');
 var Service = new DataApiService(DataDetailSchema);
 
 describe('UNIT:dataApi-service.js -- Get Data', () => {

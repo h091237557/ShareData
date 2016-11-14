@@ -4,9 +4,9 @@ var config = require('../test-config');
 var chai = require('chai');
 var expect = chai.expect;
 
-var DataService = require('../../../model/data/data-service');
-var Schema = require('../../../model/data/data-schema');
-var DataDetailSchema = require('../../../model/data/dataDetail-schema');
+var DataService = require('../../../src/model/data/data-service');
+var Schema = require('../../../src/model/data/data-schema');
+var DataDetailSchema = require('../../../src/model/data/dataDetail-schema');
 var Service = new DataService(Schema, DataDetailSchema);
 
 describe('Integration: data-service.js -- Get Data', () => {
@@ -194,7 +194,6 @@ describe('Integration: data-service.js -- Get All Data', () => {
     createResult.then((data) => {
       return Service.getAllData();
     }).then((datas) => {
-			console.log(datas.length);
       expect(datas.length).to.equal(1);
       var removeId = datas[0]._id.toString();
       return Service.remove(removeId);

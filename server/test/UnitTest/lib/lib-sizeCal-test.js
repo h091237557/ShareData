@@ -2,7 +2,7 @@ debugger;
 var chai = require('chai');
 var expect = chai.expect;
 
-var sizeOf = require('../../../src/lib/sizeCal');
+var sizeOf = require('../../../src/lib/lib-sizeCal');
 
 describe('UNIT:sizeCal.js -- Test object bytes size', () => {
 

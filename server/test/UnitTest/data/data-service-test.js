@@ -6,9 +6,9 @@ var expect = chai.expect;
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-var DataService = require('../../../model/data/data-service');
-var Schema = require('../../../model/data/data-schema');
-var DataDetailSchema = require('../../../model/data/dataDetail-schema');
+var DataService = require('../../../src/model/data/data-service');
+var Schema = require('../../../src/model/data/data-schema');
+var DataDetailSchema = require('../../../src/model/data/dataDetail-schema');
 var Service = new DataService(Schema, DataDetailSchema);
 
 describe('UNIT:data-service.js -- Get All Data', function() {
@@ -38,11 +38,6 @@ describe('UNIT:data-service.js -- Get All Data', function() {
 
 describe('UNIT:data-service.js -- Save Data', () => {
 
-  var testDatas = {
-    "describe": "test",
-    "author": "Mark"
-  }
-
   beforeEach(() => {});
 
   before(() => {
@@ -59,12 +54,16 @@ describe('UNIT:data-service.js -- Save Data', () => {
 
   it('should save success', (done) => {
 
+  var testDatas = {
+    "describe": "test",
+    "author": "Mark",
+		"data" : [{"id":"1"}]
+  }
+
     Schema.prototype.save.yields(null, {
       "status": "success"
     });
-    let result = Service.saveData(testDatas, () => {
-      console.log('Save Data Success')
-    });
+    let result = Service.saveData(testDatas);
 
     result.then((msg) => {
       expect(msg).to.exist;
@@ -76,13 +75,17 @@ describe('UNIT:data-service.js -- Save Data', () => {
   });
 
   it('should save error due to vaild error', (done) => {
-    Schema.prototype.save.yields({
-      "status": "faild"
-    }, null);
-    let result = Service.saveData(testDatas, (msg) => {
-      console.log(msg);
-    });
+  var testDatas = {
+    "describe": "test",
+    "author": "Mark",
+		"data" : {"id":"1"}
+  }
+
+    let result = Service.saveData(testDatas);
+
     result.then((msg) => {}).catch((err) => {
+			var status = err.status;
+			expect(status).to.equal(false);
       expect(err).to.exist;
       done();
     });
@@ -331,7 +334,6 @@ describe('UNIT : data-service.js -- test update datadetail method  ', () => {
       expect(msg).to.exist;
       done();
     }).catch((err) => {
-      console.log(err);
       done();
     });
   });

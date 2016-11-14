@@ -58,6 +58,35 @@ describe('Integration: data-controller.js -- Create Data ', () => {
       next(err);
     });
   });
+
+  it('should create fail becaur valid err and return status 400', (done) => {
+    let input = {
+      data: {},
+      describe: "Test"
+    };
+
+    var createPromise = new Promise((resolve, reject) => {
+      request
+        .post('/datas')
+        .send(input)
+        .expect(400)
+        .end((err, res) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(res);
+          }
+        })
+    });
+
+    createPromise.then((res) => {
+			var status = res.body.status;
+			expect(status).to.equal(false);
+			done();
+    }).catch((err) => {
+      next(err);
+    });
+  });
 });
 
 describe('Integration: data-controller.js -- Get All Data ', () => {

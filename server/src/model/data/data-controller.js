@@ -19,9 +19,11 @@ class DataController {
         if (data) {
           return res.status(200).json(data);
         } else {
-          return res.status(404).end();
+          return res.status(500).end();
         }
-      }).catch(err => next(err));
+      }).catch(err => {
+				return res.status(400).json(err);
+			});
     } catch (e) {
       next(e);
     };
