@@ -21,13 +21,6 @@ export class JsonDataService {
 
   createJsonData(json: any, describe: string): Promise < any > {
 
-		if(describe.replace(/(^\s*)|(\s*$)/g,"").length == 0){
-			alert('描述不能為空白');
-		}
-
-		//json的判斷
-		//if(json)
-
     var sendData = {
       data: json,
       describe: describe,

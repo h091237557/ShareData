@@ -4,8 +4,9 @@ import {
 
 import {
   JsonDataService
-} from '../Services/jsonData.service';
+} from '../../Services/jsonData.service';
 
+var validator = require('../../../lib/lib-validator');
 
 @Component({
   selector: 'create-api',
@@ -27,11 +28,21 @@ export class CreateApiComponent {
     let jsonString = this.jsonStringValue;
     let describe = this.describeValue;
 
-    if (typeof(jsonString) === 'object' && jsonString.length && describe ==='') {
-      var result = this.jsonDataService.createJsonData(jsonString, describe);
-    } else {
-      alert('Please enter correctly data');
+    validator.config = {
+      jsonString: 'isArray',
+      describe: 'isNonEmpty'
     }
+
+    var validResult = validator.validate({
+      "jsonString": jsonString,
+      "describe": describe
+    });
+
+		if(validResult){
+      var result = this.jsonDataService.createJsonData(jsonString, describe);
+		}else{
+      alert('Please enter correctly data');
+		}
   }
 
   onSelectPrettyJson(): void {

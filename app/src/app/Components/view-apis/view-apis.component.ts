@@ -10,7 +10,7 @@ import {
 import {
   ViewDatasModel
 } from '../../ViewModels/viewDatas-viewModel';
-import formatBytes from '../../../lib/byteToSize';
+import formatBytes from '../../../lib/lib-byteToSize';
 
 @Component({
   selector: 'view-apis',
