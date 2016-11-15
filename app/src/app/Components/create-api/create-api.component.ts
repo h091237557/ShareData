@@ -11,7 +11,7 @@ var validator = require('../../../lib/lib-validator');
 @Component({
   selector: 'create-api',
   templateUrl: './create-api.component.html',
-  styleUrls: ['./create-api.component.css'],
+  styleUrls: ['./create-api.component.scss'],
   providers: [JsonDataService]
 })
 export class CreateApiComponent {

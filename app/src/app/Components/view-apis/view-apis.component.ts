@@ -15,7 +15,7 @@ import formatBytes from '../../../lib/lib-byteToSize';
 @Component({
   selector: 'view-apis',
   templateUrl: './view-apis.component.html',
-  styleUrls: ['./view-apis.component.css'],
+  styleUrls: ['./view-apis.component.scss'],
   providers: [JsonDataService]
 })
 
