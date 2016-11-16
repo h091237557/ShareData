@@ -8,7 +8,7 @@ var validator = {
     this.messages = [];
 
     if (typeof(data) === 'string') {
-      let configLen = this.config.length || 0;
+      var configLen = this.config.length || 0;
       for (var i = 0; i < configLen; i++) {
         type = this.config[i];
         checker = this.types[type];

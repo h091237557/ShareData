@@ -20,7 +20,6 @@ describe('UNIT:validator.js -- Test validator', () => {
 		}
 
 		var result = validator.validate(testObj);
-    //每個string是2,共有6個所以為12bytes
     expect(result).to.equal(false);
   });
 
@@ -28,10 +27,9 @@ describe('UNIT:validator.js -- Test validator', () => {
 
 		var test = ' '; 
 
-		validator.config = ['isNonEmpty']
+		validator.config = ['isNonEmpty'];
 
 		var result = validator.validate(test);
-    //每個string是2,共有6個所以為12bytes
     expect(result).to.equal(false);
   });
 });

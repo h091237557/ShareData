@@ -19,3 +19,4 @@ COPY ./ $APP_HOME
 EXPOSE 8080
 
 CMD ["npm", "run", "dev"]
+
