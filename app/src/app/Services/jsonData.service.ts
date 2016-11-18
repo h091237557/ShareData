@@ -17,7 +17,7 @@ export class JsonDataService {
     'Content-Type': 'application/json'
   });
 
-  private apiUrl = 'http://127.0.01:3000/datas';
+  private apiUrl = 'http://127.0.0.1:3000/datas';
 
   createJsonData(json: any, describe: string): Promise < any > {
 

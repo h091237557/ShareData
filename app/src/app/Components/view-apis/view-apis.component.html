@@ -1,16 +1,11 @@
 
-<div class="view row">
-  <div *ngFor="let viewDatasModel of viewDatasModels" class="view-body col s12 m4">
-    <div class="card blue-grey darken-3">
-      <div class=" card-content white-text">
-        <span class="card-title">{{viewDatasModel.author}}</span>
-        <p class="view-describe">{{viewDatasModel.describe}}</p>
+<div class="view">
+  <div *ngFor="let viewDatasModel of viewDatasModels" class="view__container">
+      <div class=" view__content">
+        <span class="view__author card-title">{{viewDatasModel.author}}</span>
+        <p class="view__describe">{{viewDatasModel.describe}}</p>
       </div>
-			<div class="view-count"><i>{{viewDatasModel.count}} records</i></div>
-			<div class="view-size"><i>{{viewDatasModel.sizeString}}</i></div>
-      <div class="card-action">
-        <a href="#">Detail link</a>
-      </div>
-    </div>
+			<div class="view__count view--blackCard">{{viewDatasModel.count}} records</div>
+			<div class="view__size view--blackCard">{{viewDatasModel.sizeString}}</div>
   </div>
 </div>
