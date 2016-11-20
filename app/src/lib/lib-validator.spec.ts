@@ -27,4 +27,13 @@ describe('Unit : Validator ', () => {
 		var result = validator.validate(data);
     expect(result).toBe(false, 'should has one error');
   });
+
+  it('send data [] and should validate false', () => {
+
+		let validConfig = ['isArrayAndHaveData']
+		validator.config = validConfig;
+
+		var result = validator.validate([]);
+    expect(result).toBe(false, 'should has one error');
+  });
 });

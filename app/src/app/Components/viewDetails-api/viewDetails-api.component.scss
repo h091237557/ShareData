@@ -1,0 +1,22 @@
+.details {
+	.modal-content {
+	background-color:#2c2d32;
+	}
+
+	&__url {
+		background-color:rgba(0,0,0,0.2);
+		width:200px;
+		height:50px;
+
+		input {
+			padding:10px;
+			background-color:black;
+			border-color:-moz-use-text-color #FFFFFF #FFFFFF -moz-use-text-color;
+			border-style:none;
+			color:white;
+			border-top-right-radius:0;
+			border-bottom-right-radius:0;
+		}
+	}
+
+}

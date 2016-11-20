@@ -1,10 +1,11 @@
 <main>
 	<h1>Hello and share data ! and Hello again</h1>
 	<nav>
-		<a >View</a>
-		<a >Create</a>
+		<a routerLink="/view" routerLinkActive="active" >View</a>
+		<a routerLink="/create" routerLinkActive="active">Create</a>
 	</nav>
-	<view-apis></view-apis>
-	<create-api></create-api>
+	<router-outlet></router-outlet>
+	<!--<view-apis></view-apis>-->
+	<!--<create-api></create-api>-->
 </main>
 

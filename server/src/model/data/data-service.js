@@ -69,7 +69,7 @@ class DataModel {
     validator.config = {
       describe: 'isNonEmpty',
       author: 'isNonEmpty',
-      data: 'isArray'
+      data: 'isArrayAndHaveData'
     }
 
     var validResult = validator.validate(input);

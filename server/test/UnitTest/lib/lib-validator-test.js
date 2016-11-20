@@ -32,4 +32,20 @@ describe('UNIT:validator.js -- Test validator', () => {
 		var result = validator.validate(test);
     expect(result).to.equal(false);
   });
+
+  it('Test data is [] and should valiate false', () => {
+
+		var test = {
+			aaa:'aaa',
+			bbb: []
+		}; 
+
+		validator.config = {
+			"aaa" : "isNonEmpty",
+			"bbb" :"isArrayAndHaveData"
+		}
+
+		var result = validator.validate(test);
+    expect(result).to.equal(false);
+  });
 });

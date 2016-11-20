@@ -76,5 +76,11 @@ validator.types.isArray = {
   instructions: "the value can't be empty"
 };
 
+validator.types.isArrayAndHaveData = {
+  validate: function(value) {
+    return Array.isArray(value) && value.length>0; 
+  },
+  instructions: "the value can't be empty"
+};
 
 module.exports = validator;

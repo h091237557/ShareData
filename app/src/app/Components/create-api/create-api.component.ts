@@ -29,7 +29,7 @@ export class CreateApiComponent {
     let describe = this.describeValue;
 
     validator.config = {
-      jsonString: 'isArray',
+      jsonString: 'isArrayAndHaveData',
       describe: 'isNonEmpty'
     }
 

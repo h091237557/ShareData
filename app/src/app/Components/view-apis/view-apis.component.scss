@@ -6,9 +6,11 @@
 	padding:20px;
 
   &__container {
+		cursor:pointer;
+		background-color:rgba(0, 0, 0, 0.07);
 		width:300px;
 		box-sizing:border-box;
-		background-color:teal;
+
 		border-radius:4px;
 		padding:15px;
 		margin:20px;
@@ -22,7 +24,7 @@
     background-color: #4F4F4F;
     display: inline-block;
 		padding:10px;
-    margin: 10px;
+    margin-bottom: 10px;
     width: 20%;
     border-radius: 4px;
   }
@@ -31,6 +33,7 @@
     height: 6em;
     overflow: hidden;
     display: -webkit-box;
+		margin-bottom:10px;
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
   }
@@ -40,8 +43,9 @@
   }
 
 	&--blackCard {
+		border:2px solid #ffda00;
+		color:#ffda00;
 		line-height:36px;
-    margin: 10px;
     width: auto;
     padding: 0 12px;
     height: 36px;

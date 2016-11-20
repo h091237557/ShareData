@@ -69,9 +69,9 @@ validator.types.isNonEmpty = {
   instructions: "the value can't be empty"
 };
 
-validator.types.isArray = {
+validator.types.isArrayAndHaveData = {
   validate: function(value) {
-    return Array.isArray(value); 
+    return Array.isArray(value) && value.length>0; 
   },
   instructions: "the value can't be empty"
 };
