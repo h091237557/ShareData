@@ -167,7 +167,94 @@ describe('Integration: data-controller.js -- Get All Data ', () => {
     }).catch(err => {
       next(err);
     });
+  });
+});
+
+describe('Integration: data-controller.js -- Get Data by Id', () => {
+  before(() => {
+    config.connect((err) => {
+      if (err) {
+        console.log(err.message);
+      }
+    });
+  });
+
+  after(() => {
+    config.close((msg) => {
+      console.log(msg);
+    });
+  });
 
 
+  it('should create 1 data and get Data expect 1', (done) => {
+    let input1 = {
+      data: [{
+        "id": "1",
+        "author": "mark"
+      }],
+      describe: "Test",
+			author:"Mark"
+    };
+
+    var createPromise = (input) => {
+      return new Promise((resolve, reject) => {
+        request
+          .post('/datas')
+          .send(input)
+          .expect(200)
+          .end((err, res) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(res);
+            }
+          })
+      });
+    };
+
+    var delPromise = (id) => {
+      return new Promise((resolve, reject) => {
+        request
+          .del('/datas/' + id)
+          .expect(200)
+          .end((err, res) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(res);
+            }
+          })
+      });
+    };
+
+		var getDataPromise = (id) => {
+			return new Promise((resolve,reject) => {
+				request
+					.get('/datas/' + id)
+					.expect(200)
+					.end((err,res) => {
+						if(err){
+							reject(err);
+						}else{
+							resolve(res);
+						}
+					})
+			});
+		}
+
+		var data1_id;
+    Promise.all([createPromise(input1)]).then((datas) => {
+			data1_id = datas[0].body._id;
+			return getDataPromise(data1_id);
+    }).then((res) => {
+				var data = res.body;
+				expect(data.author).to.equal("Mark");
+			return delPromise(data1_id);
+		}).then((res) =>{
+			expect(res.body.status).to.equal(true);
+			done();
+		}).catch(err => {
+      next(err);
+    });
   });
 });

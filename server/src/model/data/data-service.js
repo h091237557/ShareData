@@ -1,5 +1,6 @@
 var sizeOf = require('../../lib/lib-sizeCal');
 var validator = require('../../lib/lib-validator');
+const config = require('../../../config');
 
 class DataModel {
 
@@ -203,7 +204,13 @@ class DataModel {
     })
   }
 
-  //取得所有Datas Schema中所有的資料
+  /*取得所有Datas Schema中所有的資料
+ * 建立者
+ * 資料描述
+ * 大小
+ * 數量
+ * 修改日期
+ */
   getAllData(limitCount) {
     let count = limitCount || 10;
     return new Promise((resolve, reject) => {
@@ -215,5 +222,42 @@ class DataModel {
       });
     });
   };
+
+
+	/*
+ * 取得View Details 所需要的資料
+ * 建立者
+ * 建立日期
+ * 修改日期
+ * 資料描述
+ * 大小
+ * 數量
+ * Url
+ */
+	getDataById(id){
+		return new Promise((resolve,reject) => {
+			let findPromise = this.find({_id:id});
+			findPromise.then((data) => {
+				if(data){
+					var data = data[0]._doc;
+					var keyId = data._id.toString();
+					var url = config.server.domain + '/api/' + data.author + '/' + keyId +'-datas'
+					resolve({
+ 						"author":data.author,
+						"createDate" : data.date,
+						"updateDate" : data.date,
+						"count" : data.count,
+						"size" :  sizeOf(data.size),
+						"describe" : data.describe,
+						"url" : url 
+					})
+				}else {
+					reject(null);
+				}
+			}).catch((err) =>{
+				reject({"status" : false,"msg" : err});
+			});
+		});
+	}
 }
 module.exports = DataModel;

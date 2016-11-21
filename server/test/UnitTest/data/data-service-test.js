@@ -36,6 +36,38 @@ describe('UNIT:data-service.js -- Get All Data', function() {
   });
 });
 
+describe('UNIT:data-service.js -- Get Data by Id', function() {
+  var find;
+  beforeEach(() => {
+    find = sinon.stub(Schema, 'find');
+  });
+
+  afterEach(() => {
+    Schema.find.restore();
+  });
+
+  it('should return data', function(done) {
+    var expectResult = {
+      "author": "mark",
+			"date" : "20000101",
+			"count" : 2,
+			"size" : 100,
+			"describe" : "Hello Mark"
+    };
+
+    Schema.find.yields(null, expectResult);
+    var result = Service.getDataById("123");
+    result.then((data) => {
+      sinon.assert.calledOnce(find);
+			var expect = "mark";
+			var actual = data.author;
+      expect(actual).to.equal(expect);
+      done();
+    }).catch((err) => {
+			done();
+		});
+  });
+});
 describe('UNIT:data-service.js -- Save Data', () => {
 
   beforeEach(() => {});
@@ -93,7 +125,7 @@ describe('UNIT:data-service.js -- Save Data', () => {
 
 });
 
-describe('UNIT:data-service.js -- test deletedata by Id', function() {
+describe('UNIT:data-service.js -- test delete data by Id', function() {
 
   var sinonObj;
   before(() => {

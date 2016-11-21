@@ -9,7 +9,6 @@ class DataController {
     this.dataService = dataService;
   }
 
-  find(req, res, next) {}
 
   create(req, res, next) {
     let input = req.body;
@@ -37,7 +36,7 @@ class DataController {
       result.then((data) => {
         if (data) {
           return res.status(200).json({
-            "status": "true"
+            "status": true 
           });
         } else {
           return res.status(500).end();
@@ -58,6 +57,18 @@ class DataController {
       return res.status(500).end();
     }
   };
+
+	getDataById(req,res,next) {
+		try{
+			var id = req.params.datasKey;
+			var result = this.dataService.getDataById(id);
+			result.then((data) => {
+				return res.status(200).json(data);
+			}).catch(err => next(err));
+		}catch(e){
+      return res.status(500).end();
+		}
+	}
 }
 
 module.exports = new DataController(dataService);

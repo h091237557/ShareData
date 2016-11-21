@@ -10,7 +10,8 @@
     "contest": "istanbul cover _mocha test/IntegrationTest/**/*.js",
     "debug-test": "mocha --debug-brk test/data/data-facade-test.js --ui qunit --compilers js:babel-register --require babel-polyfill",
     "complie": "babel model -d lib",
-    "devtool-debug": "devtool ./node_modules/mocha/bin/_mocha -qc -- ./test/UnitTest/**/*.js "
+    "unit-devtool-debug": "devtool ./node_modules/mocha/bin/_mocha -qc -- ./test/UnitTest/**/*.js ",
+    "Integ-devtool-debug": "devtool ./node_modules/mocha/bin/_mocha -qc -- ./test/IntegrationTest/**/*.js "
   },
   "engines": {
     "node": ">=6"
