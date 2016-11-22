@@ -4,17 +4,18 @@
     <div class="modal-content">
 		<div class="details__left">
 			<div class="details__url">
-				<input type="text" value="http://mark.lin.com.tw" readonly>
+				<input type="text" value='test' readonly>
 			</div>
-			<div class="details__author">Mark</div>
-			<div class="details__size">10 MB</div>
-			<div class="details__count">10000 records</div>
-			<div class="details__updateDate">20160101</div>
-			<div class="details__uploadDate">20160101</div>
-			<div class="details__describe">In October, Tesla announced that all of its new cars would be outfitted with equipment that would allow them to drive on their own, and released a video showing off technology. Now, the company has released some additional footage, showing what the car itself sees as it drives without human input.</div>
+			<div class="details__author">{{viewDetailsModel.author}}</div>
+			<div class="details__size">{{viewDetailsMode.size}}</div>
+			<div class="details__count">{{viewDetailsModel.count}} records</div>
+			<div class="details__updateDate">{{viewDetailsModel.date}}</div>
+			<div class="details__uploadDate">{{viewDetailsModel.date}}</div>
+			<div class="details__describe">{{viewDetailsModel.describe}}</div>
 		</div>
 		<div class="details__right">
-			<div class="details__json"></div>
+			<div class="details__json">
+			</div>
 		</div>
     </div>
   </div>

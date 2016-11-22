@@ -1,7 +1,8 @@
-
 import {
   Component,
-  OnInit
+  OnInit,
+  Input,
+	OnChanges
 } from '@angular/core';
 
 import {
@@ -9,7 +10,7 @@ import {
 } from '../../Services/jsonData.service';
 
 import {
- ViewDetailsModel 
+  ViewDetailsModel
 } from '../../ViewModels/viewDetails-viewModel';
 import formatBytes from '../../../lib/lib-byteToSize';
 
@@ -21,25 +22,31 @@ import formatBytes from '../../../lib/lib-byteToSize';
 })
 
 
-export class ViewDetailsApiComponent implements OnInit {
+export class ViewDetailsApiComponent implements OnChanges {
   viewDetailsModel: ViewDetailsModel;
 
-  constructor(private jsonDataService: JsonDataService) {}
+  @Input()
+  dataKey: string;
+	
+  constructor(private jsonDataService: JsonDataService) {
+	}
 
-  ngOnInit(): void {
-    //this.getAllDatas();
-  }
-  getAllDatas(): void {
-    //this.jsonDataService
-      //.getAllDatas()
-      //.then(datas => {
-        //var coverResult = datas as ViewDatasModel[];
-        //var resultLen = datas.length;
-        //for (var i = 0; i < resultLen; i++) {
-          //coverResult[i].sizeString = formatBytes(coverResult[i].size);
-        //}
-        //this.viewDatasModels = coverResult;
-      //});
-  }
+	ngOnChanges(...args:any[]):void{
+		var dataKeyObj = args[0].dataKey;
+		if(dataKeyObj){
+			var id = dataKeyObj.currentValue;
+			this.getDataById(id);	
+		}
+	}
+
+	getDataById(id:string){
+		this.jsonDataService
+			.getDataById(id)
+			.then(data => {
+				var result = data as ViewDetailsModel;
+				this.viewDetailsModel = result;
+			});
+	}
 
 }
+

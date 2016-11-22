@@ -22,12 +22,18 @@ import formatBytes from '../../../lib/lib-byteToSize';
 
 export class ViewApisComponent implements OnInit {
   viewDatasModels: ViewDatasModel[];
+	selectDataKey:string;
 
   constructor(private jsonDataService: JsonDataService) {}
 
   ngOnInit(): void {
     this.getAllDatas();
   }
+
+	onSelect(model:ViewDatasModel): void {
+		this.selectDataKey = model._id.toString();	
+	}
+	
   getAllDatas(): void {
     this.jsonDataService
       .getAllDatas()
@@ -40,5 +46,4 @@ export class ViewApisComponent implements OnInit {
         this.viewDatasModels = coverResult;
       });
   }
-
 }

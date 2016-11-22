@@ -40,16 +40,24 @@ export class JsonDataService {
   }
 
   getAllDatas(): Promise < any > {
-
     return this.http
       .get(this.apiUrl)
       .toPromise()
       .then(res => {
 			 return	Promise.resolve(res.json());
       }).catch(this.handleError);
-
   }
 
+	getDataById(id:string) : Promise <any> {
+		return this.http
+			.get(this.apiUrl+"/"+id)
+			.toPromise()
+			.then(res => {
+				return Promise.resolve(res.json());
+			}).catch(this.handleError);
+
+
+	}
   private handleError(error: any): Promise < any > {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
