@@ -55,8 +55,15 @@ export class JsonDataService {
 			.then(res => {
 				return Promise.resolve(res.json());
 			}).catch(this.handleError);
+	}
 
-
+	getDataDetailsByUrl(url:string) : Promise<any> {
+		return this.http
+			.get(url)
+			.toPromise()
+			.then(res => {
+				return Promise.resolve(res.json());
+			}).catch(this.handleError);
 	}
   private handleError(error: any): Promise < any > {
     console.error('An error occurred', error); // for demo purposes only

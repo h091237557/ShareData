@@ -5,6 +5,6 @@ export class ViewDetailsModel {
 	size:number;
 	sizeString:string;
 	count:number;
-	date:string;
-	data:any;
+	updateDate:Date;
+	startDate:Date;
 }

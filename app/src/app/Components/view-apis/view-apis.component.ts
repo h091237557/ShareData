@@ -10,6 +10,11 @@ import {
 import {
   ViewDatasModel
 } from '../../ViewModels/viewDatas-viewModel';
+
+import {
+  ViewDetailsModel
+} from '../../ViewModels/viewDetails-viewModel';
+
 import formatBytes from '../../../lib/lib-byteToSize';
 
 @Component({
@@ -22,7 +27,7 @@ import formatBytes from '../../../lib/lib-byteToSize';
 
 export class ViewApisComponent implements OnInit {
   viewDatasModels: ViewDatasModel[];
-	selectDataKey:string;
+  selectData: ViewDetailsModel;
 
   constructor(private jsonDataService: JsonDataService) {}
 
@@ -30,11 +35,13 @@ export class ViewApisComponent implements OnInit {
     this.getAllDatas();
   }
 
-	onSelect(model:ViewDatasModel): void {
-		this.selectDataKey = model._id.toString();	
-	}
-	
-  getAllDatas(): void {
+    onSelect(model: ViewDatasModel): void {
+    let selectDataKey = model._id.toString();
+    this.getDataAndDetailById(selectDataKey);
+
+  }
+
+    getAllDatas(): void {
     this.jsonDataService
       .getAllDatas()
       .then(datas => {
@@ -44,6 +51,23 @@ export class ViewApisComponent implements OnInit {
           coverResult[i].sizeString = formatBytes(coverResult[i].size);
         }
         this.viewDatasModels = coverResult;
+      });
+  }
+
+  getDataAndDetailById(id: string) {
+    var result:any ;
+    this.jsonDataService
+      .getDataById(id)
+      .then(data => {
+        result = data as ViewDetailsModel;
+        result.sizeString = formatBytes(result.size);
+        this.jsonDataService
+          .getDataDetailsByUrl(result.url)
+          .then(dataDetails => {
+						//result.data =JSON.stringify(dataDetails,null,4);
+            this.selectData = result;
+						document.getElementById("json").innerHTML = JSON.stringify(dataDetails,null,4);
+          })
       });
   }
 }

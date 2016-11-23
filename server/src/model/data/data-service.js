@@ -241,7 +241,7 @@ class DataModel {
 				if(data){
 					var data = data[0]._doc;
 					var keyId = data._id.toString();
-					var url = config.server.domain + '/api/' + data.author + '/' + keyId +'-datas'
+					var url = config.server.domain +':' + config.server.port + '/api/' + data.author + '/' + keyId +'-datas'
 					resolve({
  						"author":data.author,
 						"createDate" : data.date,

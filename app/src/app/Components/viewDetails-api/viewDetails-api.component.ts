@@ -2,7 +2,7 @@ import {
   Component,
   OnInit,
   Input,
-	OnChanges
+  OnChanges
 } from '@angular/core';
 
 import {
@@ -21,32 +21,13 @@ import formatBytes from '../../../lib/lib-byteToSize';
   providers: [JsonDataService]
 })
 
-
-export class ViewDetailsApiComponent implements OnChanges {
+export class ViewDetailsApiComponent  {
+	@Input()
   viewDetailsModel: ViewDetailsModel;
 
-  @Input()
-  dataKey: string;
-	
   constructor(private jsonDataService: JsonDataService) {
-	}
+  }
 
-	ngOnChanges(...args:any[]):void{
-		var dataKeyObj = args[0].dataKey;
-		if(dataKeyObj){
-			var id = dataKeyObj.currentValue;
-			this.getDataById(id);	
-		}
-	}
 
-	getDataById(id:string){
-		this.jsonDataService
-			.getDataById(id)
-			.then(data => {
-				var result = data as ViewDetailsModel;
-				this.viewDetailsModel = result;
-			});
-	}
 
 }
-

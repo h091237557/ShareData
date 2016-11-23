@@ -9,7 +9,6 @@ class DataController {
     this.dataService = dataService;
   }
 
-
   create(req, res, next) {
     let input = req.body;
     try {
