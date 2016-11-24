@@ -124,7 +124,7 @@ class DataModel {
         } else {
           resolve(data);
         }
-      }).limit(count);
+      }).sort({date:-1}).limit(count);
     });
   }
 

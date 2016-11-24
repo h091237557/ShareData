@@ -12,6 +12,8 @@
   &__right {
     width: 50%;
     height: 500px;
+		max-height:500px;
+		overflow:auto;
     background-color: rgba(0, 0, 0, 0.2);
 		pre {
 			color:white;
@@ -49,7 +51,7 @@
     line-height: 1.4em;
     padding: 10px;
     margin: 10px;
-		max-height:700px;
+		max-height:300px;
     width: 90%;
     background-color: rgba(0, 0, 0, 0.2);
   }
@@ -86,6 +88,9 @@
     widht: auto;
     border-radius: 4px;
     background-color: rgba(0, 0, 0, 0.2);
+	}
+
+	&__json {
 	}
 
 }
