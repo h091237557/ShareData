@@ -11,14 +11,12 @@ services:
       - mongo
     environment:
       - MONGO_DB_URI=mongodb://mongo:27017/test
-
   mongo:
     image: mongo
     ports:
       - "27017:27017"
     volumes_from:
       - mongodata
-
   mongodata:
     image: tianon/true
     volumes:
