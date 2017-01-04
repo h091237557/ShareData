@@ -184,7 +184,7 @@ describe('UNIT : data-service.js -- test splitData ', () => {
       data: dataArr,
     }
 
-    var result = Service.splitData(dataId, input);
+    var result = Service.splitData(dataId, input.data);
     expect(result.length).to.equal(10000);
   });
 });

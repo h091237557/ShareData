@@ -1,5 +1,6 @@
 var sizeOf = require('../../lib/lib-sizeCal');
 var validator = require('../../lib/lib-validator');
+var jsonParser = require('../../parser/jsonParser');
 const config = require('../../../config');
 
 class DataModel {
@@ -9,15 +10,16 @@ class DataModel {
     this.DataDetailSchema = DataDetailSchema;
   }
 
-  /*
-   * input.data :
-   * => Is user want create restful api data
-   *
-   * input.describe :
-   * => Is user want create data's describe
+  /**
+   * Create data's restufl api .	 	
+   * @param {object} input , This is a param with input.data and input,describe,author 
+   * @returns {Promise}
    */
   create(input) {
     let asyncFucs = [];
+		var parserResult = jsonParser(input.data);
+		if(parserResult.status === false)
+			reject({"status" : false,"msg" : parserResult.msg})
 
     var saveDataResult = this.saveData(input)
 
@@ -26,7 +28,7 @@ class DataModel {
         console.time("!!!Create Data timer");
 
         let dataId = data._id.toString();
-        var asyncDatas = this.splitData(dataId, input),
+        var asyncDatas = this.splitData(dataId,parserResult.datas),
           asyncDataLength = asyncDatas.length;
 
         asyncFucs.push(this.bulkSaveDataDetail(asyncDatas));
@@ -42,16 +44,21 @@ class DataModel {
     });
   }
 
-  splitData(dataId, input) {
+	/**
+	 * this method want to split datas , in orders to insert mongodb datasDetails collection.
+	 * @param {string} dataId , this param mongodb data collection's objectId .
+	 * @param {object} datas , this param that user want to create restful api datas . 
+	 * @returns {Array}
+	 */
+  splitData(dataId, datas) {
     let result = [],
-      dataLength = input.data.length,
+      datasLength = datas.length,
       maxSize = this.maxSize || 10000,
-      size = Math.ceil(dataLength / maxSize);
+      size = Math.ceil(datasLength / maxSize);
 
-    //data: input.data.slice(i * 1000, (i + 1) * 1000),
-    for (var i = 0; i < dataLength; i++) {
+    for (var i = 0; i < datasLength; i++) {
       let obj = {
-        data: input.data[i],
+        data: datas[i],
         dataId: dataId,
         isFinal: false || i == (size - 1)
       };
@@ -61,16 +68,15 @@ class DataModel {
   }
 
 	/**
- * input.describe
- * input.author
- * input.data
- */
+	 * Create data to mongodb data collection. 
+	 * @param {object} input , This is a param with input.data and input,describe,author
+	 * @returns {Promise}
+	 */
   saveData(input) {
 
     validator.config = {
       describe: 'isNonEmpty',
-      author: 'isNonEmpty',
-      data: 'isArrayAndHaveData'
+      author: 'isNonEmpty'
     }
 
     var validResult = validator.validate(input);
@@ -102,6 +108,11 @@ class DataModel {
     return promise;
   }
 
+	/**
+	 * Use MongoDB Bulk insert data to dataDetail collection. 
+	 * @param {object} datas  
+	 * @returns {Promise}
+	 */
   bulkSaveDataDetail(datas, callback) {
     let promise = new Promise((resolve, reject) => {
       this.DataDetailSchema.collection.insert(datas, (err, datas) => {
@@ -115,6 +126,12 @@ class DataModel {
     return promise;
   }
 
+	/**
+	 * Find data from mongodb data collection  
+	 * @param {string} query, mongodb query string
+	 * @param {number} limitCount , find result limit , default is 10000
+	 * @returns {undefined}
+	 */
   find(query, limitCount) {
     let count = limitCount || 10000;
     return new Promise((resolve, reject) => {
@@ -124,12 +141,18 @@ class DataModel {
         } else {
           resolve(data);
         }
-      }).sort({date:-1}).limit(count);
+      }).sort({
+        date: -1
+      }).limit(count);
     });
   }
 
+	/**
+	 * Remove all data that include data and dataDetails collection 
+	 * @param {string} id , data's objectId
+	 * @returns {Promise}
+	 */
   remove(id) {
-
     if (!id) {
       return Promise({
         status: false,
@@ -151,6 +174,11 @@ class DataModel {
     return promise;
   }
 
+	/**
+	 * Remove data from data collection 
+	 * @param {string} id , data's objectId
+	 * @returns {Promise}
+	 */
   removeDataByDataId(id) {
     var promise = new Promise((resolve, reject) => {
       this.Schema.findByIdAndRemove(id, (err, result) => {
@@ -164,14 +192,18 @@ class DataModel {
     return promise;
   }
 
+	/**
+	 * Remove data from dataDetails collection 
+	 * @param {string} id, data's objectId
+	 * @returns {Promise}
+	 */
   removeDataDetailsByDataId(id) {
-
-	if(!id){
-		return Promise.reject({
-			status:false,
-			msg:"valid error"
-		})
-	}
+    if (!id) {
+      return Promise.reject({
+        status: false,
+        msg: "valid error"
+      })
+    }
 
     return new Promise((resolve, reject) => {
       this.DataDetailSchema.collection.remove({
@@ -186,6 +218,12 @@ class DataModel {
     });
   }
 
+	/**
+	 * Update dataDetail collection  
+	 * @param {string} query , user want to update query 
+	 * @param {newData} newData , user want to update data  
+	 * @returns {Promise}
+	 */
   updateDataDetail(query, newData) {
     return new Promise((resolve, reject) => {
       this.DataDetailSchema.findOneAndUpdate(query, {
@@ -204,13 +242,11 @@ class DataModel {
     })
   }
 
-  /*取得所有Datas Schema中所有的資料
- * 建立者
- * 資料描述
- * 大小
- * 數量
- * 修改日期
- */
+	/**
+	 * Get All data from data collection. 
+	 * @param {number} limitCount , get all data limit
+	 * @returns {Promise} , and rosolve object , auhtor , describe , size, count, modifyDate
+	 */
   getAllData(limitCount) {
     let count = limitCount || 10;
     return new Promise((resolve, reject) => {
@@ -223,41 +259,40 @@ class DataModel {
     });
   };
 
-
-	/*
- * 取得View Details 所需要的資料
- * 建立者
- * 建立日期
- * 修改日期
- * 資料描述
- * 大小
- * 數量
- * Url
- */
-	getDataById(id){
-		return new Promise((resolve,reject) => {
-			let findPromise = this.find({_id:id});
-			findPromise.then((data) => {
-				if(data){
-					var data = data[0]._doc;
-					var keyId = data._id.toString();
-					var url = config.server.domain +':' + config.server.port + '/api/' + data.author + '/' + keyId +'-datas'
-					resolve({
- 						"author":data.author,
-						"createDate" : data.date,
-						"updateDate" : data.date,
-						"count" : data.count,
-						"size" :  sizeOf(data.size),
-						"describe" : data.describe,
-						"url" : url 
-					})
-				}else {
-					reject(null);
-				}
-			}).catch((err) =>{
-				reject({"status" : false,"msg" : err});
-			});
-		});
-	}
+	/**
+	 * Get Data By objectId from dataDetail collection 
+	 * @param {string} id , objectId
+	 * @returns {Promise} , resolve object is author,createDate,updateDate,count,size,describe,url
+	 */
+  getDataById(id) {
+    return new Promise((resolve, reject) => {
+      let findPromise = this.find({
+        _id: id
+      });
+      findPromise.then((data) => {
+        if (data) {
+          var data = data[0]._doc;
+          var keyId = data._id.toString();
+          var url = config.server.domain + ':' + config.server.port + '/api/' + data.author + '/' + keyId + '-datas'
+          resolve({
+            "author": data.author,
+            "createDate": data.date,
+            "updateDate": data.date,
+            "count": data.count,
+            "size": sizeOf(data.size),
+            "describe": data.describe,
+            "url": url
+          })
+        } else {
+          reject(null);
+        }
+      }).catch((err) => {
+        reject({
+          "status": false,
+          "msg": err
+        });
+      });
+    });
+  }
 }
 module.exports = DataModel;
