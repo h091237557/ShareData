@@ -1,6 +1,6 @@
 var sizeOf = require('../../lib/lib-sizeCal');
 var validator = require('../../lib/lib-validator');
-var jsonParser = require('../../parser/jsonParser');
+var parserObj = require('../../parser/jsonParser');
 const config = require('../../../config');
 
 class DataModel {
@@ -17,7 +17,7 @@ class DataModel {
    */
   create(input) {
     let asyncFucs = [];
-		var parserResult = jsonParser(input.data);
+		var parserResult = parserObj.jsonParser(input.data);
 		if(parserResult.status === false)
 			reject({"status" : false,"msg" : parserResult.msg})
 

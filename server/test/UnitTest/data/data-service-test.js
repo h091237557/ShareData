@@ -10,6 +10,7 @@ var DataService = require('../../../src/model/data/data-service');
 var Schema = require('../../../src/model/data/data-schema');
 var DataDetailSchema = require('../../../src/model/data/dataDetail-schema');
 var Service = new DataService(Schema, DataDetailSchema);
+var parserObj = require('../../../src/parser/jsonParser');
 
 describe('UNIT:data-service.js -- Get All Data', function() {
   var find;
@@ -49,23 +50,23 @@ describe('UNIT:data-service.js -- Get Data by Id', function() {
   it('should return data', function(done) {
     var expectResult = {
       "author": "mark",
-			"date" : "20000101",
-			"count" : 2,
-			"size" : 100,
-			"describe" : "Hello Mark"
+      "date": "20000101",
+      "count": 2,
+      "size": 100,
+      "describe": "Hello Mark"
     };
 
     Schema.find.yields(null, expectResult);
     var result = Service.getDataById("123");
     result.then((data) => {
       sinon.assert.calledOnce(find);
-			var expect = "mark";
-			var actual = data.author;
+      var expect = "mark";
+      var actual = data.author;
       expect(actual).to.equal(expect);
       done();
     }).catch((err) => {
-			done();
-		});
+      done();
+    });
   });
 });
 describe('UNIT:data-service.js -- Save Data', () => {
@@ -86,11 +87,13 @@ describe('UNIT:data-service.js -- Save Data', () => {
 
   it('should save success', (done) => {
 
-  var testDatas = {
-    "describe": "test",
-    "author": "Mark",
-		"data" : [{"id":"1"}]
-  }
+    var testDatas = {
+      "describe": "test",
+      "author": "Mark",
+      "data": [{
+        "id": "1"
+      }]
+    }
 
     Schema.prototype.save.yields(null, {
       "status": "success"
@@ -107,17 +110,22 @@ describe('UNIT:data-service.js -- Save Data', () => {
   });
 
   it('should save error due to vaild error', (done) => {
-  var testDatas = {
-    "describe": "test",
-    "author": "Mark",
-		"data" : {"id":"1"}
-  }
+    var testDatas = {
+      "describe": "test",
+      "author": "Mark",
+      "data": {
+        "id": "1"
+      }
+    }
 
+    Schema.prototype.save.yields({
+      "status": false
+    }, null);
     let result = Service.saveData(testDatas);
 
     result.then((msg) => {}).catch((err) => {
-			var status = err.status;
-			expect(status).to.equal(false);
+      var status = err.status;
+      expect(status).to.equal(false);
       expect(err).to.exist;
       done();
     });
@@ -222,6 +230,10 @@ describe('UNIT : data-service.js -- test bulk data to DataDetal', () => {
 });
 
 describe('UNIT : data-service.js -- test create ', () => {
+  var stub;
+  after(() => {
+    stub.restore();
+  });
 
   it('should create success', (done) => {
     let size = 10000,
@@ -234,6 +246,13 @@ describe('UNIT : data-service.js -- test create ', () => {
     for (var i = 0; i < size; i++) {
       dataArr.push(testObj);
     }
+
+    stub = sinon.stub(parserObj, "jsonParser", function customParser() {
+      return {
+        "status": true,
+        "datas": dataArr
+      }
+    });
 
     data = {
       author: "mark",
@@ -351,7 +370,7 @@ describe('UNIT : data-service.js -- test update datadetail method  ', () => {
   });
   it('should update fail', (done) => {
     var expectedResult = {
-      status: false 
+      status: false
     };
 
     DataDetailSchema.findOneAndUpdate.yields(expectedResult, null);
