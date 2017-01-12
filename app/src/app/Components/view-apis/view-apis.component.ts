@@ -34,14 +34,11 @@ export class ViewApisComponent implements OnInit {
   ngOnInit(): void {
     this.getAllDatas();
   }
-
-    onSelect(model: ViewDatasModel): void {
+  onSelect(model: ViewDatasModel): void {
     let selectDataKey = model._id.toString();
     this.getDataAndDetailById(selectDataKey);
-
   }
-
-    getAllDatas(): void {
+  getAllDatas(): void {
     this.jsonDataService
       .getAllDatas()
       .then(datas => {
@@ -53,9 +50,8 @@ export class ViewApisComponent implements OnInit {
         this.viewDatasModels = coverResult;
       });
   }
-
   getDataAndDetailById(id: string) {
-    var result:any ;
+    var result: any;
     this.jsonDataService
       .getDataById(id)
       .then(data => {
@@ -64,9 +60,12 @@ export class ViewApisComponent implements OnInit {
         this.jsonDataService
           .getDataDetailsByUrl(result.url)
           .then(dataDetails => {
-						//result.data =JSON.stringify(dataDetails,null,4);
+            //result.data =JSON.stringify(dataDetails,null,4);
             this.selectData = result;
-						document.getElementById("json").innerHTML = JSON.stringify(dataDetails,null,4);
+            //要讓modal出現後才能丟值。
+            setTimeout(() => {
+              document.getElementById("json").innerHTML = JSON.stringify(dataDetails, null, 4);
+            }, 0)
           })
       });
   }

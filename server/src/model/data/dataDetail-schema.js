@@ -9,6 +9,9 @@ const dataDetailSchema = new Schema({
 	data:{
 		type:{}
 	},
+	keyId : {
+		type:Number
+	},
 	isFinal :{
 		type:Boolean
 	}

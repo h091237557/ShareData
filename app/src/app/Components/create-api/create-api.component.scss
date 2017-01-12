@@ -64,6 +64,55 @@
 	display:inline-block;
 	background-color: #4F4F4F;
 	border-radius:4px;
+	color:#607D8B;
+	border:none;
+	}
 
+	&__createButton--active {
+		color:white;
 	}
 }
+
+
+.keysModal {
+	&__content{
+		background-color:cadetblue;
+		h5 {
+			font-size : 1.3em;
+			float:left;
+		}
+		button {
+			float:right;
+		}
+		span {
+			font-size : 1.3em;
+		}
+	}
+	&__button{
+	cursor:pointer;
+	font-size:1.3em;
+	padding: 10px 15px;
+	text-decoration:none;
+	display:inline-block;
+	background-color: #4F4F4F;
+	border-radius:4px;
+	margin-right:10px;
+	margin-top:10px;
+	}
+
+	&__keyButton{
+	cursor:pointer;
+	font-size:1.3em;
+	padding: 10px 15px;
+	text-decoration:none;
+	display:inline-block;
+	background-color: #4F4F4F;
+	border-radius:4px;
+	margin-right:10px;
+	margin-top:10px;
+	}
+	&__keyButton--active {
+		background-color : #FF8000;
+	}
+}
+

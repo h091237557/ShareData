@@ -7,6 +7,7 @@ import {
 } from '../../Services/jsonData.service';
 
 var validator = require('../../../lib/lib-validator');
+var selectKeysObj = require('../../../lib/lib-selectKey');
 
 @Component({
   selector: 'create-api',
@@ -18,13 +19,15 @@ export class CreateApiComponent {
 
   private _rapidPage: Object;
   private _errorMsg: string;
+  enablesKeys: [string];
+	selectKey : string;
 
   private _jsonString = '';
   private _describe = '';
 
   constructor(private jsonDataService: JsonDataService) {}
 
-  onSelect(): void {
+  onSaveData(): void {
     let jsonString = this.jsonStringValue;
     let describe = this.describeValue;
 
@@ -38,11 +41,32 @@ export class CreateApiComponent {
       "describe": describe
     });
 
-		if(validResult){
-      var result = this.jsonDataService.createJsonData(jsonString, describe);
-		}else{
+    if (validResult) {
+      var result = this.jsonDataService.createJsonData(jsonString, describe,this.selectKey);
+    } else {
       alert('Please enter correctly data');
-		}
+    }
+  }
+
+  onShowSelectKey(): void {
+    let jsonString = this.jsonStringValue;
+    let keys = selectKeysObj.selectEnablesKeys(jsonString);
+    this.enablesKeys = keys;
+  }
+
+  onSelectKey(event: any): void {
+    var selectedClass = 'keysModal__keyButton--active';
+    var element = event.target;
+    var oldSelectElement = document.getElementsByClassName(selectedClass);
+		this.selectKey = "";
+    if (oldSelectElement.length !== 0) {
+      oldSelectElement[0].classList.remove(selectedClass);
+    }
+
+    if (!element.classList.contains(selectedClass)) {
+			this.selectKey = element.textContent;	
+      element.classList.add(selectedClass);
+    }
   }
 
   onSelectPrettyJson(): void {
@@ -64,6 +88,9 @@ export class CreateApiComponent {
     try {
       this._jsonString = JSON.parse(v);
       this._errorMsg = "";
+			var element = document.getElementsByClassName('json__createButton')[0];
+			element["disabled"] = false;
+			element.classList.add('json__createButton--active');
     } catch (e) {
       this._errorMsg = "error this string not json";
     };
@@ -71,5 +98,6 @@ export class CreateApiComponent {
   get errorMsgValue() {
     return this._errorMsg;
   }
+
 
 }

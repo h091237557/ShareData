@@ -40,4 +40,16 @@ describe('UNIT:selectKey.js -- Test selectKey', () => {
     var result = selectKeyObj.selectKey(datas);
     expect(result).to.equal("b");
   });
+
+  it('Test select key no unqiue field  and should return default key name and new datas', () => {
+    var datas = [{
+      "a": 1,
+			"b":1
+    }, {
+      "a": 1,
+			"b":1
+    }];
+    var result = selectKeyObj.selectKey(datas);
+    expect(result).to.equal("_id_");
+  });
 });

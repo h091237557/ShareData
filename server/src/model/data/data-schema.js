@@ -19,6 +19,9 @@ const dataSchema = new Schema({
 	},
 	size:{
 		type:Number
+	},
+	key:{
+		type:String
 	}
 });
 

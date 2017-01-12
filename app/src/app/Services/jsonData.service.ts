@@ -19,12 +19,13 @@ export class JsonDataService {
 
   private apiUrl = 'http://127.0.0.1:3000/datas';
 
-  createJsonData(json: any, describe: string): Promise < any > {
+  createJsonData(json: any, describe: string,selectKey:string): Promise < any > {
 
     var sendData = {
       data: json,
       describe: describe,
-      author: "mark"
+      author: "mark",
+			key:selectKey
     };
     return this.http
       .post(this.apiUrl, sendData, {

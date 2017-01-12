@@ -12,12 +12,12 @@ class DataApiController {
     this.dataApiService = dataApiService;
   }
 
-  apiGetData(req, res, next) {
+  apiGetDatas(req, res, next) {
     try {
-			var dataKeyString = req.params.datasKey; 
-			var dataKey = dataKeyString.split('-')[0];
+			var dataIdString = req.params.dataId; 
+			var dataId = dataIdString.split('-')[0];
 			var author = req.params.author;
-      var result = this.dataApiService.get(dataKey);
+      var result = this.dataApiService.get(dataId);
       result.then((datas) => {
         if (datas) {
           return res.status(200).json(datas);
@@ -28,9 +28,27 @@ class DataApiController {
     } catch (e) {
       next(e);
     }
-
   };
 
+  apiGetDataById(req, res, next) {
+    try {
+			var dataIdString = req.params.dataId; 
+			var dataId = dataIdString.split('-')[0];
+			var author = req.params.author;
+			var selectId = req.params.selectId;
+
+      var result = this.dataApiService.getById(dataId,selectId);
+      result.then((datas) => {
+        if (datas) {
+          return res.status(200).json(datas);
+        } else {
+          return res.status(500).end();
+        }
+      })
+    } catch (e) {
+      next(e);
+    }
+  };
 }
 
 module.exports = new DataApiController(dataService, dataApiService);

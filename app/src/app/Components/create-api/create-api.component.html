@@ -1,10 +1,9 @@
 <header class="json__header">Create restful api</header>
 <section class="json__main">
 	<div class="json__left">
-
 		<textarea [(ngModel)]="describeValue" placeholder="資料描述" id="json-descripInput" type="text" class="json__describe json--textarea"></textarea>
 
-  <div><a (click)="onSelect()" class="json__createButton">建立</a></div>
+	<button class="json__createButton" (click)="onShowSelectKey()" data-toggle="modal" data-target=".keysModal" disabled>建立</button>
 
 	</div>
   <div class="json__right">
@@ -12,3 +11,24 @@
   <div class="json__erorr">{{errorMsgValue}}</div>
 	</div>
 </section>
+
+
+<!-- Modal -->
+<div class="modal fade keysModal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog " role="document">
+    <div class="modal-content keysModal__content">
+      <div class="modal-header">
+        <h5 class="modal-title" >Select Key </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+  			<div class="keysModal__keyButton" *ngFor="let key of enablesKeys" (click)="onSelectKey($event)" >{{key}}</div>
+      </div>
+      <div class="modal-footer">
+  			<div class="keysModal__button" (click)="onSaveData()">Save</div>
+      </div>
+    </div>
+  </div>
+</div>
