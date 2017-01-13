@@ -1,24 +1,32 @@
-
-<div  class="modal fade details" tabindex="-1" role="dialog" aria-labelledby="Details" aria-hidden="true">
+<div class="modal fade details" tabindex="-1" role="dialog" aria-labelledby="Details"
+  aria-hidden="true">
   <div *ngIf="viewDetailsModel" class="modal-dialog modal-lg">
+    <ul class="nav nav-tabs nav__main">
+      <li class="nav-item">
+        <a class="nav-link nav__item--active" href="#">Details</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Try Api</a>
+      </li>
+    </ul>
     <div class="modal-content">
-		<div class="details__left">
-			<div class="details__url">
-				<input type="text" value='{{viewDetailsModel.url}}' readonly>
-			</div>
-			<div class="details__author">{{viewDetailsModel.author}}</div>
-			<div class="details__size">{{viewDetailsModel.sizeString}}</div>
-			<div class="details__count">{{viewDetailsModel.count}} records</div>
-			<div class="details__updateDate">{{viewDetailsModel.updateDate | date: 'yyyy/MM/dd'}}</div>
-			<div class="details__uploadDate">{{viewDetailsModel.updateDate | date: 'yyyy/MM/dd'}}</div>
-			<div class="details__describe">{{viewDetailsModel.describe}}</div>
-		</div>
-		<div class="details__right">
-				<pre id="json" class="details__json">
+      <div class="details__left">
+        <div class="details__url">
+          <input type="text" value='{{viewDetailsModel.url}}' readonly>
+        </div>
+        <div class="details__author">{{viewDetailsModel.author}}</div>
+        <div class="details__size">{{viewDetailsModel.sizeString}}</div>
+        <div class="details__count">{{viewDetailsModel.count}} records</div>
+        <div class="details__updateDate">{{viewDetailsModel.updateDate | date: 'yyyy/MM/dd'}}</div>
+        <div class="details__uploadDate">{{viewDetailsModel.updateDate | date: 'yyyy/MM/dd'}}</div>
+        <div class="details__describe">{{viewDetailsModel.describe}}</div>
+      </div>
+      <div class="details__right">
+        <pre id="json" class="details__json">
 				<!--使用angular2綁定會有奇怪的控格-->
 				<!--{{viewDetailsModel.data}}-->
 				</pre>
-		</div>
+      </div>
     </div>
   </div>
 </div>
