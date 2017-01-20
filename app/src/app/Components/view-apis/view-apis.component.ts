@@ -27,7 +27,7 @@ import formatBytes from '../../../lib/lib-byteToSize';
 
 export class ViewApisComponent implements OnInit {
   viewDatasModels: ViewDatasModel[];
-  selectData: ViewDetailsModel;
+  selectId: string;
 
   constructor(private jsonDataService: JsonDataService) {}
 
@@ -36,7 +36,8 @@ export class ViewApisComponent implements OnInit {
   }
   onSelect(model: ViewDatasModel): void {
     let selectDataKey = model._id.toString();
-    this.getDataAndDetailById(selectDataKey);
+		this.selectId = selectDataKey;
+    //this.getDataAndDetailById(selectDataKey);
   }
   getAllDatas(): void {
     this.jsonDataService
@@ -48,25 +49,6 @@ export class ViewApisComponent implements OnInit {
           coverResult[i].sizeString = formatBytes(coverResult[i].size);
         }
         this.viewDatasModels = coverResult;
-      });
-  }
-  getDataAndDetailById(id: string) {
-    var result: any;
-    this.jsonDataService
-      .getDataById(id)
-      .then(data => {
-        result = data as ViewDetailsModel;
-        result.sizeString = formatBytes(result.size);
-        this.jsonDataService
-          .getDataDetailsByUrl(result.url)
-          .then(dataDetails => {
-            //result.data =JSON.stringify(dataDetails,null,4);
-            this.selectData = result;
-            //要讓modal出現後才能丟值。
-            setTimeout(() => {
-              document.getElementById("json").innerHTML = JSON.stringify(dataDetails, null, 4);
-            }, 0)
-          })
       });
   }
 }

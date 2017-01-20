@@ -1,11 +1,10 @@
 .details {
-  .modal-content {
     background-color: #2c2d32;
-  }
-  .modal-content {
 		padding:20px;
     display: flex;
-  }
+		margin-top:0px;
+		border-top-left-radius:0px;
+		border-top-right-radius:0px;
   &__left {
     width: 40%;
   }
@@ -94,19 +93,3 @@
 	}
 }
 
-.nav {
-	&__main {
-		border-radius:5px;
-		border-bottom:5px solid  #3a3b3c;
-		background-color:#272727;
-		font-size:1.3em;
-	}
-	&__item {
-		float:left;
-	}
-	&__item--active {
-		color:white;
-		background-color : #3b3a3d;
-		border-color : #3b3a3d #3b3a4d transparent;
-	}
-}

@@ -23,6 +23,14 @@ import {
 } from './Components/viewDetails-api/viewDetails-api.component.ts';
 
 import {
+  ViewModalApiComponent
+} from './Components/viewModal-api/viewModal-api.component.ts';
+
+import {
+	TestGetApiComponent
+} from './Components/testGet-api/testGet-api.component';
+
+import {
   FormsModule
 } from '@angular/forms';
 import {
@@ -44,6 +52,10 @@ const routes: Routes = [{
 }, {
   path: 'create',
   component: CreateApiComponent
+},{
+	path: 'view/:id',
+	component: ViewDetailsApiComponent,
+	outlet : 'modal'
 }];
 
 @NgModule({
@@ -60,7 +72,9 @@ const routes: Routes = [{
     AppComponent,
     CreateApiComponent,
     ViewApisComponent,
-    ViewDetailsApiComponent
+    ViewDetailsApiComponent,
+    ViewModalApiComponent,
+		TestGetApiComponent
   ],
   providers: [JsonDataService],
   bootstrap: [AppComponent]
