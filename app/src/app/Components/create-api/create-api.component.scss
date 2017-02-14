@@ -1,118 +1,94 @@
+$contentMasthColor:#444;
+$blockColor:#333;
 .json {
+  height: 500px;
+  padding: 40px;
   &__header {
     text-align: center;
     font-size: 2em;
-    margin: 15px;
   }
-  &__main {
-    display: flex;
-    justify-content: center;
+  &__left {
+		float:left;
+    width: 30%;
+    height: 100px;
   }
-
-	&__left {
-		width:30%;	
-		height:100px;
-		margin-right:15px;
-	}
-	
-	&__right {
-    height: 300px;
-    width: 60%;
-		margin-left:15px;
-	}
-
-  &__inputarea {
-	}
+  &__right {
+		float:right;
+    height: 90%;
+    width: 65%;
+  }
+  &__inputarea {}
   &--textarea {
-		box-sizing:border-box;
-    margin-top: 10px;
-    -moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-top-colors: none;
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.07);
-    border-color: -moz-use-text-color #FFFFFF #FFFFFF -moz-use-text-color;
-    border-image: none;
-    border-radius: 6px;
-    border-style: none solid solid none;
-    border-width: medium 1px 1px medium;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
-    color: #555555;
-    font-size: 1em;
-    line-height: 1.4em;
-    padding: 5px 8px;
-    transition: background-color 0.2s ease 0s;
-		width:100%;
-		height:100%;
+    background-color: #333;
+    color: #fff;
+    box-sizing: border-box;
+    box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1), 0 -1px 0 rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    border: none;
+    padding: 15px;
+    width: 100%;
+    height: 100%;
   }
-
   &__textarea:focus {
     background: none repeat scroll 0 0 #E0E0E0;
     outline-width: 0;
   }
   &__error {}
-  
-	
-	&__describe {
-	}
+  &__describe {}
   &__createButton {
-	cursor:pointer;
-	font-size:1.3em;
-	padding: 10px 15px;
-	text-decoration:none;
-	margin-top:10px;
-	display:inline-block;
-	background-color: #4F4F4F;
-	border-radius:4px;
-	color:#607D8B;
-	border:none;
-	}
-
-	&__createButton--active {
-		color:white;
-	}
+    cursor: pointer;
+    font-size: 1.3em;
+    padding: 10px 15px;
+    text-decoration: none;
+    margin-top: 10px;
+    display: inline-block;
+    background-color: #4F4F4F;
+    border-radius: 4px;
+    color: #607D8B;
+    border: none;
+  }
+  &__createButton--active {
+    color: white;
+  }
 }
-
 
 .keysModal {
-	&__content{
-		background-color:cadetblue;
-		h5 {
-			font-size : 1.3em;
-			float:left;
-		}
-		button {
-			float:right;
-		}
-		span {
-			font-size : 1.3em;
-		}
-	}
-	&__button{
-	cursor:pointer;
-	font-size:1.3em;
-	padding: 10px 15px;
-	text-decoration:none;
-	display:inline-block;
-	background-color: #4F4F4F;
-	border-radius:4px;
-	margin-right:10px;
-	margin-top:10px;
-	}
-
-	&__keyButton{
-	cursor:pointer;
-	font-size:1.3em;
-	padding: 10px 15px;
-	text-decoration:none;
-	display:inline-block;
-	background-color: #4F4F4F;
-	border-radius:4px;
-	margin-right:10px;
-	margin-top:10px;
-	}
-	&__keyButton--active {
-		background-color : #FF8000;
-	}
+  &__content {
+    background-color: cadetblue;
+    h5 {
+      font-size: 1.3em;
+      float: left;
+    }
+    button {
+      float: right;
+    }
+    span {
+      font-size: 1.3em;
+    }
+  }
+  &__button {
+    cursor: pointer;
+    font-size: 1.3em;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: inline-block;
+    background-color: #4F4F4F;
+    border-radius: 4px;
+    margin-right: 10px;
+    margin-top: 10px;
+  }
+  &__keyButton {
+    cursor: pointer;
+    font-size: 1.3em;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: inline-block;
+    background-color: #4F4F4F;
+    border-radius: 4px;
+    margin-right: 10px;
+    margin-top: 10px;
+  }
+  &__keyButton--active {
+    background-color: #FF8000;
+  }
 }
-

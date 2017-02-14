@@ -1,3 +1,5 @@
+$contentMasthColor:#444;
+
 main {
   font-family: Arial, Helvetica, sans-serif;
 	width:83%;
@@ -6,16 +8,27 @@ main {
 	box-sizing:border-box;
 }
 
+.mainContent {
+	background-color:$contentMasthColor;
+	
+}
+
+nav {
+	border-bottom:3px inset $contentMasthColor;
+}
+
 nav a {
 	font-size:1.3em;
+	font-weight:bold;
+
 	padding: 10px 15px;
 	text-decoration:none;
 	margin-top:10px;
-	margin-left: 40px;
+	margin-right:10px;
 	display:inline-block;
-	background-color: #4F4F4F;
-	border-radius:4px;
+	background-color:$contentMasthColor;
 }
+
 
 nav a:visited, a:link{
 	color:#607D8B;
@@ -31,7 +44,13 @@ nav a.active {
 }
 
 h1 {
-	font-size:2em;
 	margin:30px;
 	text-align:center;
+	color:#fc0;	
+
+	font-size:2.55em;
+	font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-weight:bold;
+
+	transform:rotate(-2.0deg)
 }

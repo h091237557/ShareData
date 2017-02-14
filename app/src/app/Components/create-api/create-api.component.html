@@ -1,5 +1,5 @@
-<header class="json__header">Create restful api</header>
-<section class="json__main">
+<div class="json">
+<!--<header class="json__header">Create restful api</header>-->
 	<div class="json__left">
 		<textarea [(ngModel)]="describeValue" placeholder="資料描述" id="json-descripInput" type="text" class="json__describe json--textarea"></textarea>
 
@@ -10,7 +10,7 @@
 		<textarea (input)="jsonStringValue=$event.target.value" class="json--textarea" cols="30" rows="10" placeholder="請輸入你的JSON"></textarea>
   <div class="json__erorr">{{errorMsgValue}}</div>
 	</div>
-</section>
+</div>
 
 
 <!-- Modal -->
