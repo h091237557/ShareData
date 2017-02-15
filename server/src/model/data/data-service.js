@@ -292,7 +292,7 @@ class DataModel {
             "createDate": data.date,
             "updateDate": data.date,
             "count": data.count,
-            "size": sizeOf(data.size),
+            "size": data.size,
             "describe": data.describe,
             "url": url
           })

@@ -1,22 +1,42 @@
-<div  *ngIf="viewDetailsModel" class="modal-content details modal-lg modal-dialog">
-  <div class="details__left">
-    <div class="details__url">
-      <input type="text" value='{{viewDetailsModel.url}}' readonly>
-    </div>
-    <div class="details__author">{{viewDetailsModel.author}}</div>
-    <div class="details__size">{{viewDetailsModel.sizeString}}</div>
-    <div class="details__count">{{viewDetailsModel.count}} records</div>
-    <div class="details__updateDate">{{viewDetailsModel.updateDate | date: 'yyyy/MM/dd'}}</div>
-    <div class="details__uploadDate">{{viewDetailsModel.updateDate | date: 'yyyy/MM/dd'}}</div>
-    <div class="details__describe">{{viewDetailsModel.describe}}</div>
+<div *ngIf="viewDetailsModel" class="modal-content details modal-lg modal-dialog">
+  <div class="details__url ">
+    <input class="details--blackBorderCard" type="text" value='{{viewDetailsModel.url}}'
+      readonly>
   </div>
-  <div class="details__right">
-    <pre id="json" class="details__json">
+  <div class="details__main">
+    <div class="details__left">
+      <div class="details--blackBorderCard">
+        <pre id="json" class="details__json ">
 				<!--使用angular2綁定會有奇怪的控格-->
 				<!--{{viewDetailsModel.data}}-->
 				</pre>
+      </div>
+    </div>
+    <div class="details__right">
+      <div class="details__property">
+        <div class="details--propertyCard_Master"><i class="fa fa-user" aria-hidden="true"></i> Author :
+          <div class="details--propertyCard">{{viewDetailsModel.author}}</div>
+        </div>
+        <div class="details--propertyCard_Master"><i class="fa fa-folder" aria-hidden="true"></i> Size :
+          <div class="details--propertyCard">
+            {{viewDetailsModel.sizeString}}</div>
+        </div>
+        <div class="details--propertyCard_Master"><i class="fa fa-quora" aria-hidden="true"></i> Count :
+          <div class="details--propertyCard">
+            {{viewDetailsModel.count}} records</div>
+        </div>
+        <div class="details--propertyCard_Master"><i class="fa fa-clock-o" aria-hidden="true"></i> UpdateDate :
+          <div class="details--propertyCard">
+            {{viewDetailsModel.updateDate | date: 'yyyy/MM/dd'}}</div>
+        </div>
+        <div class="details--propertyCard_Master"><i class="fa fa-clock-o" aria-hidden="true"></i> CreateDate :
+          <div class="details--propertyCard">
+            {{viewDetailsModel.updateDate | date: 'yyyy/MM/dd'}}</div>
+        </div>
+      </div>
+      <div class="details__describe"><i class="fa fa-pencil" aria-hidden="true"></i> Describe :
+        <div class="details--propertyCard">{{viewDetailsModel.describe}}</div>
+      </div>
+    </div>
   </div>
 </div>
-
-
-

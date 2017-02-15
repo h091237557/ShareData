@@ -1,6 +1,6 @@
 <!--Box-Main-->
 <div class="view">
-	<div *ngFor="let viewDatasModel of viewDatasModels" class="view__container" data-toggle="modal" data-target=".details" (click)="onSelect(viewDatasModel)">
+	<div *ngFor="let viewDatasModel of viewDatasModels" class="view__container" data-toggle="modal" data-target=".modal__main" (click)="onSelect(viewDatasModel)">
 			<div class="view__content">
 				<span class="view__author card-title">{{viewDatasModel.author}}</span>
 			<div class="view__date ">{{viewDatasModel.date | date: 'yyyy/MM/dd'}}</div>

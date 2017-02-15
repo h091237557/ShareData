@@ -4,7 +4,7 @@ main {
   font-family: Arial, Helvetica, sans-serif;
 	width:83%;
 	max-width:1350px;
-	margin:20px auto;
+	margin:30px auto;
 	box-sizing:border-box;
 }
 
@@ -44,11 +44,12 @@ nav a.active {
 }
 
 h1 {
-	margin:30px;
+
+	margin:50px auto 30px auto;
 	text-align:center;
 	color:#fc0;	
 
-	font-size:2.55em;
+	font-size:3em;
 	font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,sans-serif;
 	font-weight:bold;
 

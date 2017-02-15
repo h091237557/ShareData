@@ -1,7 +1,8 @@
 <!-- Modal -->
-<div class="modal fade details" tabindex="-1" role="dialog" aria-labelledby="Details"
+
+<div class="modal fade modal__main" tabindex="-1" role="dialog" aria-labelledby="Details"
   aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg modal__content">
     <ul class="nav nav-tabs nav__main">
       <li class="nav-item" *ngFor="let tab of tabs" (click)="selectTab(tab)">
         <a class="nav-link nav__item--active" >{{tab.title}}</a>
