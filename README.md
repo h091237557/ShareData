@@ -3,11 +3,10 @@
 This project could shared data to everyone , you can send data and this project could create restful api . Not only to get Data from uri , but also you can change data by restful api . 
 
 * Backend : `node` + `express` + `mongodb` + `docker`。
-* BackendTest : `mocha` + `sinon`
-
-* Frontend : `Angular2` + `typescript` + `webpack` + `scss` 
-* CssStucture : `BEM`
-* FrontendTest : `karma`
+* BackendTest : `mocha` + `sinon`。
+* Frontend : `Angular2` + `typescript` + `webpack` + `scss` 。
+* CssStucture : `BEM`。
+* FrontendTest : `karma`。
 
 ![alt tag](https://github.com/h091237557/ShareData/blob/master/img/img1.png)
 
