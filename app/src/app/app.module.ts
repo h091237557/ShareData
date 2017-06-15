@@ -77,6 +77,12 @@ const routes: Routes = [{
 		TestGetApiComponent
   ],
   providers: [JsonDataService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent,
+    CreateApiComponent,
+    ViewApisComponent,
+    ViewDetailsApiComponent,
+    ViewModalApiComponent,
+		TestGetApiComponent
+	]
 })
 export class AppModule {}
